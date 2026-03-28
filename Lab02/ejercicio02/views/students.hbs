@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    <h1>Lista de estudiantes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Nota</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each students}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{grade}}</td>
+                    <td>
+                        {{#ifCond grade '>' 15}}
+                            Aprobado
+                        {{else}}
+                            Desaprobado
+                        {{/ifCond}}
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</body>
+</html>
