@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+</head>
+
+<body class="grey lighten-4">
+
+  <div class="container">
+    <h4 class="center-align">⭐ Juegos Favoritos</h4>
+
+    <% if (gamesList.length === 0) { %>
+      <div class="card-panel yellow lighten-4 center">
+        No hay juegos registrados aún.
+      </div>
+    <% } %>
+
+    <div class="row">
+      <% gamesList.forEach(game => { %>
+        <div class="col s12 m6">
+          <div class="card purple lighten-5">
+
+            <div class="card-content">
+              <span class="card-title"><%= game.favGame %></span>
+
+              <p><strong>Nombre:</strong> <%= game.name %></p>
+              <p><strong>Motivo:</strong> <%= game.reason %></p>
+              <p><strong>Descripción:</strong> <%= game.description %></p>
+              <p><strong>Calificación:</strong> <%= game.rating %>/10</p>
+            </div>
+
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <div class="center">
+      <a href="/games" class="btn purple">
+      Registrar otro juego
+      </a>
+
+      <a href="/" class="btn grey">Volver</a>
+    </div>
+  </div>
+
+</body>
+</html>

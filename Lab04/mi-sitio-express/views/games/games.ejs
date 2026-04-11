@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+</head>
+
+<body class="grey lighten-4">
+
+  <div class="container">
+    <h4 class="center-align">Registrar Juego Favorito</h4>
+
+    <div class="card">
+      <div class="card-content">
+
+        <form action="/games" method="POST">
+
+          <div class="input-field">
+            <input type="text" name="name" id="name" required>
+            <label for="name">Nombre</label>
+          </div>
+
+          <div class="input-field">
+            <input type="text" name="favGame" id="favGame" required>
+            <label for="favGame">Juego favorito</label>
+          </div>
+
+          <div class="input-field">
+            <input type="text" name="reason" id="reason">
+            <label for="reason">Motivo</label>
+          </div>
+
+          <div class="input-field">
+            <textarea name="description" id="description" class="materialize-textarea"></textarea>
+            <label for="description">Descripción</label>
+          </div>
+
+          <div class="input-field">
+            <input type="number" name="rating" id="rating" min="1" max="10">
+            <label for="rating">Calificación (1-10)</label>
+          </div>
+
+          <div class="center">
+            <button class="btn purple" type="submit">
+              Guardar
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+    <div class="center">
+      <a href="/favGames" class="btn grey">Ver lista</a>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</body>
+</html>

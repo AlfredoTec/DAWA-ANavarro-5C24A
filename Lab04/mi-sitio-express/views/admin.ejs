@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body class="grey lighten-4">
+
+  <div class="container">
+
+    <h4 class="center-align">📩 Mensajes recibidos</h4> 
+
+    <% if (messages.length === 0) { %>
+      
+      <div class="card-panel yellow lighten-4 center">
+        <i class="material-icons">info</i>
+        No hay mensajes aún.
+      </div>
+
+    <% } else { %>
+
+      <div class="row">
+        <% messages.forEach(m => { %>
+
+          <div class="col s12 m6">
+            <div class="card hoverable">
+
+              <div class="card-content">
+                <span class="card-title">
+                  <i class="material-icons left">person</i>
+                  <%= m.nombre %>
+                </span>
+
+                <p>
+                  <i class="material-icons tiny">email</i>
+                  <strong>Email:</strong> <%= m.email %>
+                </p>
+
+                <p style="margin-top:10px;">
+                  <i class="material-icons tiny">message</i>
+                  <em><%= m.mensaje %></em>
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+        <% }) %>
+      </div>
+
+    <% } %>
+
+    <div class="center" style="margin-top: 30px;">
+
+      <a href="/contact" class="btn purple">
+        <i class="material-icons left">add</i>
+        Nuevo mensaje
+      </a>
+
+      <a href="/" class="btn grey">
+        <i class="material-icons left">arrow_back</i>
+        Volver al inicio
+      </a>
+
+    </div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</body>
+</html>
