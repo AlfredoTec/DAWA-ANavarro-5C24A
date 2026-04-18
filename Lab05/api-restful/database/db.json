@@ -1,0 +1,328 @@
+{
+  "tickets": [
+    {
+      "id": "t-001",
+      "title": "Error al iniciar sesión",
+      "description": "No permite acceso con credenciales correctas",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": null
+    },
+    {
+      "id": "t-002",
+      "title": "Página no carga",
+      "description": "Tiempo de respuesta muy alto",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "t-003",
+      "title": "Error en carrito",
+      "description": "No agrega productos",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": null
+    },
+    {
+      "id": "t-004",
+      "title": "Problema con pagos",
+      "description": "Transacción rechazada sin motivo",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": null
+    },
+    {
+      "id": "t-005",
+      "title": "Perfil no actualiza",
+      "description": "No guarda cambios",
+      "status": "nuevo",
+      "priority": "low",
+      "assignedUser": null
+    },
+    {
+      "id": "t-006",
+      "title": "Error en registro",
+      "description": "Formulario no envía datos",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "t-007",
+      "title": "Notificaciones duplicadas",
+      "description": "Se reciben múltiples alertas",
+      "status": "nuevo",
+      "priority": "low",
+      "assignedUser": null
+    },
+    {
+      "id": "t-008",
+      "title": "Error 500 en servidor",
+      "description": "Falla interna al acceder",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": null
+    },
+    {
+      "id": "t-009",
+      "title": "Búsqueda no funciona",
+      "description": "No devuelve resultados",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "t-010",
+      "title": "Problema con imágenes",
+      "description": "No cargan correctamente",
+      "status": "nuevo",
+      "priority": "low",
+      "assignedUser": null
+    },
+    {
+      "id": "t-011",
+      "title": "Error en logout",
+      "description": "No cierra sesión",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "t-012",
+      "title": "Datos incorrectos",
+      "description": "Se muestran datos erróneos",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": null
+    },
+    {
+      "id": "t-013",
+      "title": "API lenta",
+      "description": "Respuestas tardan mucho",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "t-014",
+      "title": "Error en filtros",
+      "description": "Filtros no aplican",
+      "status": "nuevo",
+      "priority": "low",
+      "assignedUser": null
+    },
+    {
+      "id": "t-015",
+      "title": "Problema con emails",
+      "description": "No llegan correos",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": null
+    },
+    {
+      "id": "bc8d527f-4cd4-4927-ae4c-9ea9eaa0eeca",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": "Alfredo Navarro"
+    },
+    {
+      "id": "408ce9ee-c477-4efc-b347-647d45651618",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "02571d9e-4f69-46fb-bbcb-0e02e9d4455d",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "c9b7b4e6-d4bf-4942-a123-e92d9359a93c",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "75c002c7-0732-4bb0-ae79-aade3d89866a",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "2186e166-2403-415e-8db2-5722d9eac974",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "633c4392-f7f8-4ffa-8801-c94369845963",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "017e07e9-99f2-491a-b3d0-c3c09a0cf5a0",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "a507c09e-b930-4743-8cc2-7b57f99c2c2a",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "563bdb0e-c74e-437f-b642-dfe0f29f425d",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "063c1f47-52fc-4a8a-bf0f-e88304259e4a",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas y toma captura",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "8bfbe5fd-caca-452d-aa14-e1fb918ec9c4",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas y toma captura",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "78900dd1-1cce-4fd0-a08f-3770a0e67c1f",
+      "title": "DAWA: Laboratorio 5",
+      "description": "Termina de hacer tu laboratorio y subelo a Canvas y toma captura",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": "Alfredo Navarro"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "260a8d99-1294-4c24-9d36-a88e2cb14b2f",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "bc8d527f-4cd4-4927-ae4c-9ea9eaa0eeca"
+    },
+    {
+      "id": "1c4b3fd6-7aad-49ac-a257-3ec1022cc7bf",
+      "type": "email",
+      "message": "El ticket bc8d527f-4cd4-4927-ae4c-9ea9eaa0eeca fue asignado a Alfredo Navarro",
+      "status": "pending",
+      "ticketId": "bc8d527f-4cd4-4927-ae4c-9ea9eaa0eeca"
+    },
+    {
+      "id": "afb43c98-ea64-47a9-9c6f-ff84007d0691",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "408ce9ee-c477-4efc-b347-647d45651618"
+    },
+    {
+      "id": "ec277ec3-71a1-40b5-a0cc-2112e237a6c3",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "02571d9e-4f69-46fb-bbcb-0e02e9d4455d"
+    },
+    {
+      "id": "d4dc8085-a445-45b8-815b-2344935053bb",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "c9b7b4e6-d4bf-4942-a123-e92d9359a93c"
+    },
+    {
+      "id": "63fd7a65-d86f-4a4f-b6d8-b0fd08d629a4",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "75c002c7-0732-4bb0-ae79-aade3d89866a"
+    },
+    {
+      "id": "3494f443-8c59-42dc-a89f-3fcc619264c9",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "2186e166-2403-415e-8db2-5722d9eac974"
+    },
+    {
+      "id": "a63115bc-c857-4045-bec5-070e9a48689c",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "017e07e9-99f2-491a-b3d0-c3c09a0cf5a0"
+    },
+    {
+      "id": "b074e964-57cf-4f67-9380-5db8662b03fa",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "a507c09e-b930-4743-8cc2-7b57f99c2c2a"
+    },
+    {
+      "id": "bebf8e76-b5e5-4777-a9c2-3249cb652f43",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "563bdb0e-c74e-437f-b642-dfe0f29f425d"
+    },
+    {
+      "id": "2b8cce9c-0dbb-42f4-8592-ed2e7a353cc3",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "063c1f47-52fc-4a8a-bf0f-e88304259e4a"
+    },
+    {
+      "id": "b2aabeb8-1b4a-4409-bf57-6b35dfe0438e",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "8bfbe5fd-caca-452d-aa14-e1fb918ec9c4"
+    },
+    {
+      "id": "2d3faaa7-bee7-4674-bf46-22ed5b7fa023",
+      "type": "email",
+      "message": "Nuevo ticket creado: DAWA: Laboratorio 5",
+      "status": "pending",
+      "ticketId": "78900dd1-1cce-4fd0-a08f-3770a0e67c1f"
+    },
+    {
+      "id": "26255289-c3fa-4916-adcf-9b98faf9b522",
+      "type": "email",
+      "message": "El ticket 78900dd1-1cce-4fd0-a08f-3770a0e67c1f fue asignado a Alfredo Navarro",
+      "status": "pending",
+      "ticketId": "78900dd1-1cce-4fd0-a08f-3770a0e67c1f"
+    }
+  ]
+}
