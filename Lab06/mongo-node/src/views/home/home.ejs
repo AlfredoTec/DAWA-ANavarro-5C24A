@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Social Media - Home</title>
+  <!-- Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body class="grey lighten-4">
+
+  <%- include("../partials/navbar") %>
+
+  <div class="container" style="margin-top: 48px;">
+    <div class="card-panel white" style="border-radius: 14px;">
+      <div class="row" style="margin-bottom: 0;">
+        <div class="col s12 m7">
+          <h3 class="blue-text text-darken-2" style="margin-top: 0;">Bienvenido</h3>
+          <p class="flow-text" style="margin-top: 8px;">
+            Publica contenido, explora posts y gestiona tu feed.
+          </p>
+
+          <div style="margin-top: 24px;">
+            <a href="/posts/" class="btn-large waves-effect waves-light blue darken-2">
+              <i class="material-icons left">dynamic_feed</i>
+              Ver posts
+            </a>
+            <a href="/users/" class="btn-large waves-effect waves-light white black-text" style="margin-left: 8px;">
+              <i class="material-icons left">group</i>
+              Usuarios
+            </a>
+            <a href="/posts/json" class="btn-large waves-effect waves-light white black-text" style="margin-left: 8px;">
+              <i class="material-icons left">code</i>
+              API JSON
+            </a>
+          </div>
+        </div>
+
+        <div class="col s12 m5" style="margin-top: 8px;">
+          <div class="card blue darken-2" style="border-radius: 14px;">
+            <div class="card-content white-text">
+              <span class="card-title">Acciones rápidas</span>
+              <p>Explora publicaciones o consume la API para pruebas.</p>
+            </div>
+            <div class="card-action" style="border-radius: 0 0 14px 14px;">
+              <a href="/posts/" class="white-text">Ir a posts</a>
+              <a href="/users/" class="white-text">Usuarios</a>
+              <a href="/posts/json" class="white-text">Ver JSON</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m4">
+        <div class="card-panel white" style="border-radius: 14px;">
+          <i class="material-icons blue-text text-darken-2">verified</i>
+          <h6 style="margin-top: 8px;">Validaciones</h6>
+          <p class="grey-text text-darken-1">Los posts requieren título y contenido válidos.</p>
+        </div>
+      </div>
+      <div class="col s12 m4">
+        <div class="card-panel white" style="border-radius: 14px;">
+          <i class="material-icons blue-text text-darken-2">settings</i>
+          <h6 style="margin-top: 8px;">CRUD</h6>
+          <p class="grey-text text-darken-1">Crea, edita y elimina posts desde la API.</p>
+        </div>
+      </div>
+      <div class="col s12 m4">
+        <div class="card-panel white" style="border-radius: 14px;">
+          <i class="material-icons blue-text text-darken-2">school</i>
+          <h6 style="margin-top: 8px;">Lab</h6>
+          <p class="grey-text text-darken-1">Estructura por features en `src/`.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="page-footer blue darken-2" style="margin-top: 40px;">
+    <div class="footer-copyright">
+      <div class="container">
+        <span>Social Media - DAWA Lab</span>
+        <a class="grey-text text-lighten-4 right" href="/posts/">Posts</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</body>
+</html>

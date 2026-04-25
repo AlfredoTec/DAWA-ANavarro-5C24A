@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media - Posts</title>
+  <!-- Importar Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <!-- Iconos de Google -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="grey lighten-4">
+
+  <%- include("../partials/navbar") %>
+
+  <div class="container">
+    <div class="row" style="margin-top: 24px;">
+      <div class="col s12">
+        <div class="card-panel white" style="border-radius: 14px;">
+          <div class="row" style="margin-bottom: 0;">
+            <div class="col s12 m8">
+              <h4 style="margin: 0;">Posts</h4>
+              <p class="grey-text text-darken-1" style="margin-top: 6px;">
+                Lista de publicaciones registradas en MongoDB.
+              </p>
+            </div>
+            <div class="col s12 m4 right-align" style="margin-top: 6px;">
+              <a href="/" class="btn waves-effect waves-light white black-text">
+                <i class="material-icons left">arrow_back</i>
+                Volver
+              </a>
+              <a href="/posts/json" class="btn waves-effect waves-light blue darken-2" style="margin-left: 8px;">
+                <i class="material-icons left">code</i>
+                JSON
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m5">
+        <div class="card" style="border-radius: 14px; overflow: hidden;">
+          <div class="card-content">
+            <span class="card-title" style="font-weight: 700;">Crear post</span>
+
+            <form method="POST" action="/posts">
+              <div class="input-field">
+                <select name="userId" required>
+                  <option value="" disabled selected>Selecciona un usuario</option>
+                  <% if (users && users.length > 0) { %>
+                    <% users.forEach((u) => { %>
+                      <option value="<%= u._id %>"><%= u.name %> <%= u.lastName || "" %> (<%= u.email %>)</option>
+                    <% }) %>
+                  <% } %>
+                </select>
+                <label>Usuario</label>
+              </div>
+
+              <div class="input-field">
+                <input id="title" name="title" type="text" minlength="5" maxlength="30" required>
+                <label for="title">Título (5-30)</label>
+              </div>
+
+              <div class="input-field">
+                <textarea id="content" name="content" class="materialize-textarea" minlength="10" required></textarea>
+                <label for="content">Contenido (min 10)</label>
+              </div>
+
+              <button class="btn waves-effect waves-light blue darken-2" type="submit">
+                <i class="material-icons left">add</i>
+                Crear
+              </button>
+              <a class="btn waves-effect waves-light white black-text" href="/users/" style="margin-left: 8px;">
+                <i class="material-icons left">group</i>
+                Crear usuario
+              </a>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m7">
+        <div class="card" style="border-radius: 14px; overflow: hidden;">
+          <div class="card-content">
+            <span class="card-title" style="font-weight: 700;">Listado</span>
+
+            <% if (!posts || posts.length === 0) { %>
+              <div class="card-panel" style="border-radius: 14px;">
+                <div class="valign-wrapper">
+                  <i class="material-icons blue-text text-darken-2" style="margin-right: 10px;">info</i>
+                  <span>No hay posts todavía. Crea uno usando el formulario.</span>
+                </div>
+              </div>
+            <% } else { %>
+              <div class="row">
+                <% posts.forEach((p) => { %>
+                  <div class="col s12">
+                    <div class="card" style="border-radius: 14px; overflow: hidden;">
+                      <div class="card-content">
+                        <span class="card-title" style="font-weight: 700;"><%= p.title %></span>
+                        <p class="grey-text text-darken-2"><%= p.content %></p>
+                      </div>
+                      <div class="card-action" style="display: flex; align-items: center; justify-content: space-between;">
+                        <span class="grey-text text-darken-1" style="font-size: 0.9rem;">
+                          <strong>Autor:</strong>
+                          <%= p.user ? (p.user.name || p.user.email || p.user._id) : "N/A" %>
+                        </span>
+                        <span class="grey-text" style="font-size: 0.8rem;">ID: <%= p._id %></span>
+                      </div>
+                    </div>
+                  </div>
+                <% }) %>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Importar Materialize JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      M.FormSelect.init(elems);
+    });
+  </script>
+</body>
+</html>
