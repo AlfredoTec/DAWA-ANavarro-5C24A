@@ -37,7 +37,7 @@ export default function SearchBar() {
     debounceRef.current = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const API_KEY = process.env.OMDB_API_KEY;
+        const API_KEY = process.env.NEXT_PUBLIC_OMDB_API_KEY;
         const response = await fetch(
           `https://www.omdbapi.com/?apikey=${API_KEY}&s=${value}`
         );
@@ -99,7 +99,7 @@ export default function SearchBar() {
               <div className="flex-1">
                 <h3 className="text-white font-medium">{movie.Title}</h3>
                 <p className="text-gray-400 text-sm">
-                  {movie.Year} - {movie.Type}
+                  {movie.Year} &​bull; {movie.Type}
                 </p>
               </div>
               <span className="text-gray-500 text-xs uppercase bg-gray-900 px-2 py-1 rounded">

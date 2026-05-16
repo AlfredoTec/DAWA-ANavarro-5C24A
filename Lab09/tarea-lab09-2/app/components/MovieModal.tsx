@@ -18,7 +18,7 @@ export default function MovieModal() {
       setIsLoading(true);
       setError(null);
       try {
-        const API_KEY = process.env.OMDB_API_KEY;
+        const API_KEY = process.env.NEXT_PUBLIC_OMDB_API_KEY;
         const response = await fetch(
           `https://www.omdbapi.com/?apikey=${API_KEY}&i=${selectedMovieID}&plot=full`
         );

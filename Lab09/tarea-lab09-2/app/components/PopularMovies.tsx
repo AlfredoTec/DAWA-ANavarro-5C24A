@@ -5,7 +5,7 @@ import MovieCard from './MovieCard';
 // Usamos SSR porque los datos de peliculas populares son relativamente estaticos
 // y queremos que el contenido este disponible inmediatamente para SEO y rendimiento.
 async function getPopularMovies(): Promise<PopularMovie[]> {
-  const API_KEY = process.env.OMDB_API_KEY;
+  const API_KEY = process.env.NEXT_PUBLIC_OMDB_API_KEY;
   const popularTitles = [
     'Inception',
     'The Dark Knight',
