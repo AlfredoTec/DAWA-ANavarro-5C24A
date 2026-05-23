@@ -1,255 +1,332 @@
-import Link from "next/link";
+/**
+ * ISR (Incremental Static Regeneration):
+ * - generateStaticParams() pre-genera las rutas de TODOS los personajes en build time.
+ * - revalidate = 864000 (10 días): la página estática se revalida cada 10 días.
+ *   Si llega un request después del vencimiento, Next.js sirve la versión stale
+ *   y re-genera la página en background. La siguiente solicitud recibe la fresca.
+ * - Esto combina la velocidad de SSG con la actualización periódica de datos.
+ */
+
 import Image from "next/image";
-import { Metadata } from "next";
-import { Character, CharacterListResponse } from "@/types/rickmorty";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FiArrowLeft, FiMapPin, FiFilm, FiCalendar, FiUser, FiGlobe } from "react-icons/fi";
+import { GiDna1, GiPortal } from "react-icons/gi";
+import { Character, ApiResponse } from "@/types/rickmorty";
 
-// ----------------------------------------------------------------
-// Tipos de props
-// ----------------------------------------------------------------
+// ISR: Revalidar cada 10 días (10 * 24 * 60 * 60 = 864 000 segundos)
+export const revalidate = 864000;
 
-interface CharacterDetailProps {
-  params: Promise<{ id: string }>;
+// Las rutas no pregeneradas se generan on-demand (ISR fallback)
+export const dynamicParams = true;
+
+// Genera rutas estáticas para todos los personajes en build time
+export async function generateStaticParams() {
+  try {
+    const allIds: { id: string }[] = [];
+
+    // Fetch primera página para conocer total de páginas
+    const firstRes = await fetch("https://rickandmortyapi.com/api/character", {
+      cache: "force-cache",
+    });
+
+    if (!firstRes.ok) return [];
+
+    const contentType = firstRes.headers.get("content-type") ?? "";
+    if (!contentType.includes("application/json")) return [];
+
+    const firstData: ApiResponse = await firstRes.json();
+    const totalPages = firstData.info.pages;
+
+    firstData.results.forEach((c) => allIds.push({ id: String(c.id) }));
+
+    // Fetch todas las páginas restantes en paralelo
+    const pagePromises = Array.from({ length: totalPages - 1 }, (_, i) =>
+      fetch(`https://rickandmortyapi.com/api/character?page=${i + 2}`, {
+        cache: "force-cache",
+      }).then(async (r) => {
+        const ct = r.headers.get("content-type") ?? "";
+        if (!r.ok || !ct.includes("application/json")) return null;
+        return r.json() as Promise<ApiResponse>;
+      })
+    );
+
+    const pages = await Promise.all(pagePromises);
+    pages.forEach((page) => {
+      if (page) page.results.forEach((c) => allIds.push({ id: String(c.id) }));
+    });
+
+    return allIds;
+  } catch {
+    // Si la API no está disponible en build time, las rutas se generan on-demand
+    return [];
+  }
 }
 
-// ----------------------------------------------------------------
-// Fetch del personaje por ID (ISR: revalidación cada 10 días)
-// ----------------------------------------------------------------
+async function getCharacter(id: string): Promise<Character> {
+  const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`, {
+    next: { revalidate: 864000 },
+  });
 
-/**
- * @purpose Obtiene un personaje por ID con ISR.
- *          revalidate: 864000 segundos = 10 días.
- */
-async function getCharacter(id: string, retries = 2): Promise<Character> {
-  const API = process.env.NEXT_PUBLIC_RICKMORTY_API;
-  const res = await fetch(
-    `${API}/character/${id}`,
-    { next: { revalidate: 864000 } }
-  );
-
-  if (res.status === 429 && retries > 0) {
-    await new Promise((r) => setTimeout(r, 1500));
-    return getCharacter(id, retries - 1);
-  }
-
-  // Razonamiento: notFound() para cualquier error evita que el build falle.
-  // En runtime, Next.js muestra la página 404 gracefully.
   if (!res.ok) notFound();
+
+  const contentType = res.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) notFound();
 
   return res.json();
 }
 
-// ----------------------------------------------------------------
-// generateStaticParams: pre-genera rutas para todos los IDs
-// ----------------------------------------------------------------
-
-/**
- * @purpose Genera en build time las rutas estáticas para todos los IDs.
- *          Se obtiene primero el total de personajes desde la API.
- */
-export async function generateStaticParams() {
-  // Razonamiento: obtenemos la primera página para saber el total de páginas.
-  const API = process.env.NEXT_PUBLIC_RICKMORTY_API;
-  const firstRes = await fetch(`${API}/character`);
-  const firstData: CharacterListResponse = await firstRes.json();
-  const totalPages = firstData.info.pages;
-
-  // Razonamiento: recolectamos todos los IDs reales desde cada página.
-  // Hacemos fetch secuencial para evitar rate limiting en build.
-  const allIds: string[] = [];
-  for (const character of firstData.results) {
-    allIds.push(String(character.id));
-  }
-
-  for (let p = 2; p <= totalPages; p++) {
-    const res = await fetch(
-      `${API}/character?page=${p}`
-    );
-    if (res.ok) {
-      const data: CharacterListResponse = await res.json();
-      for (const character of data.results) {
-        allIds.push(String(character.id));
-      }
-    }
-  }
-
-  return allIds.map((id) => ({ id }));
+function extractEpisodeNumber(url: string): string {
+  return url.split("/").pop() ?? url;
 }
 
-// ----------------------------------------------------------------
-// generateMetadata: metadata dinámica por personaje
-// ----------------------------------------------------------------
+const statusConfig = {
+  Alive: { label: "Vivo", color: "#39ff14", bg: "rgba(57,255,20,0.1)", border: "rgba(57,255,20,0.4)" },
+  Dead: { label: "Muerto", color: "#ff4444", bg: "rgba(255,68,68,0.1)", border: "rgba(255,68,68,0.4)" },
+  unknown: { label: "Desconocido", color: "#888888", bg: "rgba(136,136,136,0.1)", border: "rgba(136,136,136,0.4)" },
+};
 
-export async function generateMetadata({
-  params,
-}: CharacterDetailProps): Promise<Metadata> {
+interface Props {
+  params: Promise<{ id: string }>;
+}
+
+export default async function CharacterDetailPage({ params }: Props) {
   const { id } = await params;
   const character = await getCharacter(id);
 
-  return {
-    title: `${character.name} - Rick & Morty`,
-    description: `${character.name} - ${character.status} | ${character.species} | ${character.gender}`,
-  };
-}
-
-// ----------------------------------------------------------------
-// Helpers de color
-// ----------------------------------------------------------------
-
-function statusColor(status: string): string {
-  switch (status) {
-    case "Alive":
-      return "bg-green-600";
-    case "Dead":
-      return "bg-red-600";
-    default:
-      return "bg-gray-500";
-  }
-}
-
-function statusBorder(status: string): string {
-  switch (status) {
-    case "Alive":
-      return "border-green-500";
-    case "Dead":
-      return "border-red-500";
-    default:
-      return "border-gray-500";
-  }
-}
-
-// ----------------------------------------------------------------
-// Componente principal
-// ----------------------------------------------------------------
-
-export default async function CharacterDetail({ params }: CharacterDetailProps) {
-  const { id } = await params;
-  const character = await getCharacter(id);
+  const status = statusConfig[character.status] ?? statusConfig.unknown;
+  const createdDate = new Date(character.created).toLocaleDateString("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
-    <div className="p-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Tarjeta principal */}
-        <div
-          className={`bg-gray-800/90 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border-2 ${statusBorder(character.status)}`}
-        >
-          {/* Header con imagen y nombre */}
-          <div className="flex flex-col md:flex-row">
-            {/* Imagen */}
-            <div className="md:w-1/2 relative aspect-square md:aspect-auto">
-              <Image
-                src={character.image}
-                alt={character.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-                priority
-                unoptimized
-              />
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Back button */}
+      <Link
+        href="/rickmorty"
+        className="inline-flex items-center gap-2 text-[#8896b0] hover:text-[#39ff14] transition-colors mb-8 group text-sm"
+      >
+        <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" />
+        Volver a personajes
+      </Link>
+
+      {/* ISR badge */}
+      <div className="mb-6">
+        <span className="text-xs text-[#8896b0] bg-[#0f1828] border border-[#1e3a5f] px-3 py-1 rounded-full">
+          ISR · revalidate: 10 días · generateStaticParams
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Left: Image + basic info */}
+        <div className="md:col-span-1 space-y-4">
+          {/* Character image */}
+          <div
+            className="relative aspect-square rounded-2xl overflow-hidden border-2"
+            style={{
+              borderColor: status.color,
+              boxShadow: `0 0 30px ${status.border}`,
+            }}
+          >
+            <Image
+              src={character.image}
+              alt={character.name}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              priority
+              className="object-cover"
+            />
+          </div>
+
+          {/* Status badge */}
+          <div
+            className="flex items-center gap-3 px-4 py-3 rounded-xl border"
+            style={{
+              background: status.bg,
+              borderColor: status.border,
+            }}
+          >
+            <span
+              className="w-3 h-3 rounded-full flex-shrink-0"
+              style={{
+                background: status.color,
+                boxShadow: `0 0 8px ${status.color}`,
+              }}
+            />
+            <span className="font-semibold" style={{ color: status.color }}>
+              {status.label}
+            </span>
+            <span className="text-[#8896b0] text-sm ml-auto">
+              {character.status}
+            </span>
+          </div>
+
+          {/* Quick info pills */}
+          <div className="space-y-2">
+            {[
+              { icon: <FiUser />, label: "Género", value: character.gender },
+              { icon: <GiDna1 />, label: "Especie", value: character.species },
+              ...(character.type
+                ? [{ icon: <GiPortal />, label: "Tipo", value: character.type }]
+                : []),
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#0f1828] border border-[#1e3a5f]"
+              >
+                <span className="text-[#39ff14]">{item.icon}</span>
+                <div>
+                  <div className="text-xs text-[#8896b0] leading-none mb-0.5">
+                    {item.label}
+                  </div>
+                  <div className="text-white text-sm font-medium">
+                    {item.value || "N/A"}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: Details */}
+        <div className="md:col-span-2 space-y-6">
+          {/* Name + ID */}
+          <div>
+            <div className="flex items-center gap-3 mb-1">
+              <span className="text-[#8896b0] text-sm font-mono">#{character.id}</span>
+              <div className="h-px flex-1 bg-[#1e3a5f]" />
             </div>
+            <h1
+              className="text-3xl md:text-4xl font-black text-white leading-tight"
+              style={{ fontFamily: "var(--font-orbitron)" }}
+            >
+              {character.name}
+            </h1>
+          </div>
 
-            {/* Info principal */}
-            <div className="md:w-1/2 p-8 flex flex-col justify-center">
-              <h1 className="text-4xl font-extrabold text-green-400 mb-2">
-                {character.name}
-              </h1>
-
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span
-                  className={`${statusColor(character.status)} text-white text-sm font-bold px-3 py-1 rounded-full`}
-                >
-                  {character.status}
-                </span>
-                <span className="bg-gray-700 text-gray-200 text-sm font-bold px-3 py-1 rounded-full">
-                  {character.species}
-                </span>
-                {character.type && (
-                  <span className="bg-purple-700 text-purple-200 text-sm font-bold px-3 py-1 rounded-full">
-                    {character.type}
-                  </span>
-                )}
-                <span className="bg-blue-700 text-blue-200 text-sm font-bold px-3 py-1 rounded-full">
-                  {character.gender}
-                </span>
+          {/* Locations */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-[#0f1828] border border-[#1e3a5f] rounded-xl p-4">
+              <div className="flex items-center gap-2 text-[#8896b0] text-xs uppercase tracking-wider mb-2">
+                <FiGlobe className="text-[#00d4ff]" />
+                Origen
               </div>
-
-              {/* Campos detallados */}
-              <div className="space-y-4 text-gray-300">
-                <div>
-                  <span className="text-gray-500 text-xs uppercase tracking-wider">
-                    Origen
-                  </span>
-                  <p className="text-white font-medium">{character.origin.name}</p>
-                </div>
-
-                <div>
-                  <span className="text-gray-500 text-xs uppercase tracking-wider">
-                    Ubicación actual
-                  </span>
-                  <p className="text-white font-medium">
-                    {character.location.name}
-                  </p>
-                </div>
-
-                <div>
-                  <span className="text-gray-500 text-xs uppercase tracking-wider">
-                    Registro creado
-                  </span>
-                  <p className="text-white font-medium">
-                    {new Date(character.created).toLocaleDateString("es-PE", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </p>
-                </div>
-
-                <div>
-                  <span className="text-gray-500 text-xs uppercase tracking-wider">
-                    ID
-                  </span>
-                  <p className="text-green-400 font-mono font-bold">
-                    #{character.id}
-                  </p>
-                </div>
+              <p className="text-white font-medium">{character.origin.name}</p>
+              {character.origin.url && (
+                <p className="text-[#8896b0] text-xs mt-1 font-mono truncate">
+                  {character.origin.url.split("/api/")[1] || "—"}
+                </p>
+              )}
+            </div>
+            <div className="bg-[#0f1828] border border-[#1e3a5f] rounded-xl p-4">
+              <div className="flex items-center gap-2 text-[#8896b0] text-xs uppercase tracking-wider mb-2">
+                <FiMapPin className="text-[#39ff14]" />
+                Última ubicación
               </div>
+              <p className="text-white font-medium">{character.location.name}</p>
+              {character.location.url && (
+                <p className="text-[#8896b0] text-xs mt-1 font-mono truncate">
+                  {character.location.url.split("/api/")[1] || "—"}
+                </p>
+              )}
             </div>
           </div>
 
-          {/* Sección de episodios */}
-          <div className="p-8 border-t border-gray-700/50">
-            <h2 className="text-2xl font-bold text-green-400 mb-4">
-              Episodios ({character.episode.length})
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-              {character.episode.map((epUrl) => {
-                const epNumber = epUrl.split("/").pop();
+          {/* Episodes */}
+          <div className="bg-[#0f1828] border border-[#1e3a5f] rounded-xl p-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2 text-[#8896b0] text-xs uppercase tracking-wider">
+                <FiFilm className="text-[#00d4ff]" />
+                Episodios
+              </div>
+              <span
+                className="text-lg font-black text-[#39ff14]"
+                style={{ fontFamily: "var(--font-orbitron)" }}
+              >
+                {character.episode.length}
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto pr-1">
+              {character.episode.map((ep) => {
+                const epNum = extractEpisodeNumber(ep);
                 return (
                   <span
-                    key={epUrl}
-                    className="bg-gray-700/50 text-gray-300 text-center text-sm font-mono py-2 px-3 rounded-lg border border-gray-600/30"
+                    key={ep}
+                    className="px-2.5 py-1 rounded-lg text-xs font-mono text-[#00d4ff] border border-[#00d4ff]/20 bg-[#00d4ff]/5"
                   >
-                    Ep. {epNumber}
+                    EP {epNum.padStart(2, "0")}
                   </span>
                 );
               })}
             </div>
+            {character.episode.length > 0 && (
+              <div className="mt-3 pt-3 border-t border-[#1e3a5f] flex justify-between text-xs text-[#8896b0]">
+                <span>
+                  Primer ep:{" "}
+                  <span className="text-white">
+                    #{extractEpisodeNumber(character.episode[0])}
+                  </span>
+                </span>
+                <span>
+                  Último ep:{" "}
+                  <span className="text-white">
+                    #{extractEpisodeNumber(character.episode[character.episode.length - 1])}
+                  </span>
+                </span>
+              </div>
+            )}
           </div>
 
-          {/* Footer con botón volver */}
-          <div className="p-8 bg-gray-900/50 border-t border-gray-700/50 flex justify-between items-center">
-            <Link
-              href="/rickmorty"
-              className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition"
-            >
-              ← Volver a Personajes
-            </Link>
-
-            <span className="text-gray-500 text-sm">
-              ISR • Revalidación cada 10 días
-            </span>
+          {/* Metadata */}
+          <div className="bg-[#0f1828] border border-[#1e3a5f] rounded-xl p-5 space-y-3">
+            <h3 className="text-[#8896b0] text-xs uppercase tracking-wider">
+              Metadata
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="flex items-center gap-3">
+                <FiCalendar className="text-[#8896b0] flex-shrink-0" />
+                <div>
+                  <div className="text-xs text-[#8896b0]">Creado</div>
+                  <div className="text-white text-sm">{createdDate}</div>
+                </div>
+              </div>
+              <div>
+                <div className="text-xs text-[#8896b0] mb-1">URL de la API</div>
+                <p className="text-[#8896b0] text-xs font-mono truncate">
+                  {character.url}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Navigation between characters */}
+      <div className="flex items-center justify-between mt-12 pt-6 border-t border-[#1e3a5f]">
+        {parseInt(id) > 1 ? (
+          <Link
+            href={`/rickmorty/${parseInt(id) - 1}`}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#1e3a5f] text-[#8896b0] hover:text-[#39ff14] hover:border-[#39ff14]/40 transition-all text-sm"
+          >
+            <FiArrowLeft /> Personaje #{parseInt(id) - 1}
+          </Link>
+        ) : (
+          <div />
+        )}
+        <Link
+          href="/rickmorty"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#39ff14]/30 text-[#39ff14] hover:bg-[#39ff14]/10 transition-all text-sm"
+        >
+          <GiPortal /> Ver todos
+        </Link>
+        <Link
+          href={`/rickmorty/${parseInt(id) + 1}`}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#1e3a5f] text-[#8896b0] hover:text-[#39ff14] hover:border-[#39ff14]/40 transition-all text-sm"
+        >
+          Personaje #{parseInt(id) + 1} <FiArrowLeft className="rotate-180" />
+        </Link>
       </div>
     </div>
   );
