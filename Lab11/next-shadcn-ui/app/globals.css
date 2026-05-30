@@ -123,8 +123,21 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    line-height: 1.6;
   }
   html {
     @apply font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  h1 { font-size: 2rem; font-weight: 800; }
+  h2 { font-size: 1.5rem; font-weight: 700; }
+  h3 { font-size: 1.125rem; font-weight: 600; }
+  p {
+    line-height: 1.65;
   }
 }

@@ -145,10 +145,10 @@ export function TasksTab() {
           </div>
           <div className="grid gap-2">
             <Label>Asignado a</Label>
-            <Select value={form.userId} onValueChange={v => setForm({ ...form, userId: v })}>
+            <Select value={form.userId || "none"} onValueChange={v => setForm({ ...form, userId: v === "none" ? "" : v })}>
               <SelectTrigger><SelectValue placeholder="Sin asignar" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Sin asignar</SelectItem>
+                <SelectItem value="none">Sin asignar</SelectItem>
                 {members.map(m => <SelectItem key={m.userId} value={m.userId}>{m.name}</SelectItem>)}
               </SelectContent>
             </Select>

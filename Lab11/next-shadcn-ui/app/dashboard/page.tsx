@@ -13,8 +13,8 @@ export default function DashboardPage() {
       <div className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-foreground mb-1">Dashboard de Proyectos</h1>
-            <p className="text-muted-foreground">Gestiona tus proyectos y tareas</p>
+            <h1 className="text-3xl font-extrabold tracking-tight text-foreground mb-1">Dashboard de Proyectos</h1>
+            <p className="text-base text-muted-foreground font-normal">Gestiona tus proyectos y tareas</p>
           </div>
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>

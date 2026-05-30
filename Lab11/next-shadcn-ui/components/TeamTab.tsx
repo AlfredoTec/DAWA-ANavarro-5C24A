@@ -166,10 +166,10 @@ export function TeamTab() {
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
             <Label>Proyecto asignado</Label>
-            <Select value={form.projectId} onValueChange={v => setForm({ ...form, projectId: v })}>
+            <Select value={form.projectId || "none"} onValueChange={v => setForm({ ...form, projectId: v === "none" ? "" : v })}>
               <SelectTrigger><SelectValue placeholder="Sin proyecto" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Sin proyecto</SelectItem>
+                <SelectItem value="none">Sin proyecto</SelectItem>
                 {projects.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
               </SelectContent>
             </Select>
