@@ -1,11 +1,20 @@
 "use client";
 
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
+import LogoutButton from "@/components/LogoutButton";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Image from "next/image";
-import LogoutButton from "@/components/LogoutButton";
-import Link from "next/link";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -19,45 +28,78 @@ export default function DashboardPage() {
 
   if (status === "loading") {
     return (
-      <div className="flex flex-1 items-center justify-center">
-        <p className="text-gray-500">Cargando...</p>
-      </div>
+      <Box
+        sx={{
+          alignItems: "center",
+          display: "flex",
+          flex: 1,
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress aria-label="Cargando sesión" />
+      </Box>
     );
   }
 
   if (!session) return null;
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-6">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-10 flex flex-col items-center gap-6 w-full max-w-lg">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
-          Dashboard
-        </h1>
-        {session.user?.image && (
-          <Image
-            src={session.user.image}
-            alt="Avatar"
-            width={80}
-            height={80}
-            className="rounded-full"
-          />
-        )}
-        <p className="text-gray-700 dark:text-gray-300 text-lg">
-          Hola, <span className="font-semibold">{session.user?.name}</span>
-        </p>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">
-          {session.user?.email}
-        </p>
-        <div className="flex gap-4">
-          <Link
-            href="/profile"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Ver perfil
-          </Link>
-          <LogoutButton />
-        </div>
-      </div>
-    </div>
+    <Box
+      sx={{
+        alignItems: "center",
+        bgcolor: "background.default",
+        display: "flex",
+        flex: 1,
+        py: 6,
+      }}
+    >
+      <Container maxWidth="sm">
+        <Paper elevation={3} sx={{ p: { xs: 3, sm: 5 } }}>
+          <Stack spacing={3} sx={{ alignItems: "center" }}>
+            <Box
+              component="h1"
+              sx={{ fontSize: "2.125rem", fontWeight: 700, lineHeight: 1.2, m: 0 }}
+            >
+              Dashboard
+            </Box>
+
+            <Avatar
+              alt={session.user?.name ?? "Usuario"}
+              src={session.user?.image ?? undefined}
+              sx={{ bgcolor: "primary.main", height: 88, width: 88 }}
+            >
+              {!session.user?.image && (
+                <AccountCircleRoundedIcon fontSize="large" />
+              )}
+            </Avatar>
+
+            <Box sx={{ textAlign: "center" }}>
+              <Typography variant="h6">
+                Hola, <strong>{session.user?.name}</strong>
+              </Typography>
+              <Typography color="text.secondary" variant="body2">
+                {session.user?.email}
+              </Typography>
+            </Box>
+
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={2}
+              sx={{ width: "100%" }}
+            >
+              <Button
+                fullWidth
+                onClick={() => router.push("/profile")}
+                startIcon={<AccountCircleRoundedIcon />}
+                variant="contained"
+              >
+                Ver perfil
+              </Button>
+              <LogoutButton />
+            </Stack>
+          </Stack>
+        </Paper>
+      </Container>
+    </Box>
   );
 }

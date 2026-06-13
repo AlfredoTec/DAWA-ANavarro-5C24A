@@ -1,11 +1,25 @@
 "use client";
 
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Stack,
+} from "@mui/material";
+import LogoutButton from "@/components/LogoutButton";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Image from "next/image";
-import LogoutButton from "@/components/LogoutButton";
-import Link from "next/link";
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
@@ -19,57 +33,102 @@ export default function ProfilePage() {
 
   if (status === "loading") {
     return (
-      <div className="flex flex-1 items-center justify-center">
-        <p className="text-gray-500">Cargando...</p>
-      </div>
+      <Box
+        sx={{
+          alignItems: "center",
+          display: "flex",
+          flex: 1,
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress aria-label="Cargando sesión" />
+      </Box>
     );
   }
 
   if (!session) return null;
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center bg-gray-50 dark:bg-gray-900 p-6">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-10 flex flex-col items-center gap-6 w-full max-w-lg">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
-          Mi Perfil
-        </h1>
-        {session.user?.image && (
-          <Image
-            src={session.user.image}
-            alt="Foto de perfil"
-            width={100}
-            height={100}
-            className="rounded-full ring-4 ring-blue-500"
-          />
-        )}
-        <div className="w-full flex flex-col gap-3">
-          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-            <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-medium">
-              Nombre
-            </p>
-            <p className="text-gray-800 dark:text-white font-semibold mt-1">
-              {session.user?.name}
-            </p>
-          </div>
-          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-            <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-medium">
-              Correo electrónico
-            </p>
-            <p className="text-gray-800 dark:text-white font-semibold mt-1">
-              {session.user?.email}
-            </p>
-          </div>
-        </div>
-        <div className="flex gap-4">
-          <Link
-            href="/dashboard"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Ir al Dashboard
-          </Link>
-          <LogoutButton />
-        </div>
-      </div>
-    </div>
+    <Box
+      sx={{
+        alignItems: "center",
+        bgcolor: "background.default",
+        display: "flex",
+        flex: 1,
+        py: 6,
+      }}
+    >
+      <Container maxWidth="sm">
+        <Paper elevation={3} sx={{ p: { xs: 3, sm: 5 } }}>
+          <Stack spacing={3} sx={{ alignItems: "center" }}>
+            <Box
+              component="h1"
+              sx={{ fontSize: "2.125rem", fontWeight: 700, lineHeight: 1.2, m: 0 }}
+            >
+              Mi Perfil
+            </Box>
+
+            <Avatar
+              alt={session.user?.name ?? "Foto de perfil"}
+              src={session.user?.image ?? undefined}
+              sx={{
+                bgcolor: "primary.main",
+                border: "4px solid",
+                borderColor: "primary.light",
+                height: 104,
+                width: 104,
+              }}
+            >
+              {!session.user?.image && <PersonRoundedIcon fontSize="large" />}
+            </Avatar>
+
+            <List
+              sx={{
+                bgcolor: "grey.50",
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: 2,
+                width: "100%",
+              }}
+            >
+              <ListItem>
+                <ListItemIcon>
+                  <PersonRoundedIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Nombre"
+                  secondary={session.user?.name ?? "Sin nombre registrado"}
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <EmailRoundedIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Correo electrónico"
+                  secondary={session.user?.email ?? "Sin correo registrado"}
+                />
+              </ListItem>
+            </List>
+
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={2}
+              sx={{ width: "100%" }}
+            >
+              <Button
+                fullWidth
+                onClick={() => router.push("/dashboard")}
+                startIcon={<ArrowBackRoundedIcon />}
+                variant="contained"
+              >
+                Ir al Dashboard
+              </Button>
+              <LogoutButton />
+            </Stack>
+          </Stack>
+        </Paper>
+      </Container>
+    </Box>
   );
 }

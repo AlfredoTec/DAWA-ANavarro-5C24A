@@ -1,14 +1,18 @@
 "use client";
 
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { Button } from "@mui/material";
 import { signOut } from "next-auth/react";
 
 export default function LogoutButton() {
   return (
-    <button
+    <Button
+      color="error"
       onClick={() => signOut({ callbackUrl: "/" })}
-      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+      startIcon={<LogoutRoundedIcon />}
+      variant="outlined"
     >
       Cerrar sesión
-    </button>
+    </Button>
   );
 }
