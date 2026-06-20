@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#020c1b; font-family:'Segoe UI',sans-serif; padding:20px; }
+h2 { color:#64748b; font-size:11px; font-family:'Courier New',monospace; letter-spacing:2px; margin-bottom:6px; }
+.intro { color:#475569; font-size:10px; font-family:'Courier New',monospace; margin-bottom:20px; }
+
+.opt { margin-bottom:28px; }
+.opt-meta { display:flex; align-items:flex-start; gap:8px; margin-top:8px; }
+.tag { background:rgba(56,189,248,.08); border:1px solid rgba(56,189,248,.15); color:#38bdf8; font-size:9px; padding:2px 8px; border-radius:3px; font-family:'Courier New',monospace; flex-shrink:0; }
+.opt-title { color:#f8fafc; font-size:13px; font-weight:700; }
+.opt-desc { color:#64748b; font-size:11px; margin-top:2px; }
+
+.hero-row {
+  background:#0f172a; border:1px solid #1e3a5f; border-radius:8px;
+  display:flex; align-items:stretch; overflow:hidden; height:180px;
+  cursor:pointer; transition:border-color .25s, box-shadow .25s;
+}
+.hero-row:hover, .hero-row.sel { border-color:#38bdf8; box-shadow:0 0 20px rgba(56,189,248,.12); }
+
+.left { padding:22px 26px; flex:1; display:flex; flex-direction:column; justify-content:center; }
+.eyebrow { font-size:9px; color:#38bdf8; letter-spacing:3px; font-family:'Courier New',monospace; margin-bottom:7px; }
+.name { font-size:26px; font-weight:900; color:#f8fafc; line-height:1; letter-spacing:-1px; margin-bottom:4px; }
+.name span { color:#38bdf8; }
+.accent { width:28px; height:2px; background:linear-gradient(90deg,#38bdf8,transparent); margin:5px 0; }
+.role { font-size:9px; color:#94a3b8; margin-bottom:10px; }
+.btns { display:flex; gap:6px; }
+.bp { background:#38bdf8; color:#0f172a; font-size:7px; font-weight:700; padding:4px 10px; border-radius:3px; }
+.bg { border:1px solid #334155; color:#94a3b8; font-size:7px; padding:4px 10px; border-radius:3px; }
+
+.right {
+  width:210px; flex-shrink:0; border-left:1px solid #1e3a5f;
+  height:100%; display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden; padding:14px;
+}
+
+/* ── A: LIVE CLOCK / LOCATION ── */
+.clock-widget { width:100%; text-align:center; }
+.clock-location { font-family:'Courier New',monospace; font-size:8px; color:#64748b; letter-spacing:2px; margin-bottom:10px; }
+.clock-location span { color:#38bdf8; }
+.clock-time { font-family:'Courier New',monospace; font-size:30px; font-weight:900; color:#f8fafc; letter-spacing:-1px; line-height:1; margin-bottom:4px; }
+.clock-date { font-family:'Courier New',monospace; font-size:8px; color:#64748b; margin-bottom:12px; }
+.clock-status { display:inline-flex; align-items:center; gap:5px; background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.2); padding:4px 10px; border-radius:20px; }
+.pulse { width:6px; height:6px; border-radius:50%; background:#22c55e; box-shadow:0 0 6px rgba(34,197,94,.7); animation:pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.3);opacity:.7} }
+.clock-status span { font-family:'Courier New',monospace; font-size:8px; color:#22c55e; }
+
+/* ── B: PARTICLE NETWORK (CSS only) ── */
+.particle-wrap { position:relative; width:170px; height:140px; }
+.node { position:absolute; width:4px; height:4px; border-radius:50%; background:#38bdf8; box-shadow:0 0 6px rgba(56,189,248,.6); }
+.node.dim { background:#1e3a5f; box-shadow:none; width:3px; height:3px; }
+svg.lines { position:absolute; top:0; left:0; width:100%; height:100%; }
+.line { stroke:rgba(56,189,248,.15); stroke-width:0.8; }
+.line.bright { stroke:rgba(56,189,248,.35); }
+.center-node { width:8px; height:8px; background:#38bdf8; box-shadow:0 0 12px rgba(56,189,248,.8); }
+
+/* ── C: TYPING ANIMATION ── */
+.typing-wrap { width:100%; }
+.typing-header { font-family:'Courier New',monospace; font-size:8px; color:#64748b; margin-bottom:10px; }
+.typing-header span { color:#38bdf8; }
+.typing-line { font-family:'Courier New',monospace; font-size:10px; color:#f8fafc; min-height:16px; margin-bottom:6px; display:flex; align-items:center; gap:2px; }
+.typing-cursor { width:7px; height:12px; background:#38bdf8; animation:blink 1s infinite; display:inline-block; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.role-badge { display:inline-block; background:rgba(56,189,248,.08); border:1px solid rgba(56,189,248,.15); color:#38bdf8; font-size:8px; padding:2px 8px; border-radius:3px; margin-top:4px; }
+.typing-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:10px; }
+.tt { font-size:7px; color:#64748b; font-family:'Courier New',monospace; }
+.tt::before { content:'#'; color:#334155; }
+
+/* ── D: GRADIENT ORB ── */
+.orb-wrap { position:relative; width:140px; height:140px; display:flex; align-items:center; justify-content:center; }
+.orb-outer { position:absolute; inset:0; border-radius:50%; border:1px solid rgba(56,189,248,.1); animation:orbit 12s linear infinite; }
+.orb-outer::after { content:''; position:absolute; width:6px; height:6px; background:#38bdf8; border-radius:50%; top:-3px; left:50%; margin-left:-3px; box-shadow:0 0 10px rgba(56,189,248,.8); }
+.orb-mid { position:absolute; inset:20px; border-radius:50%; border:1px dashed rgba(56,189,248,.2); animation:orbit 8s linear infinite reverse; }
+.orb-mid::after { content:''; position:absolute; width:4px; height:4px; background:#7dd3fc; border-radius:50%; bottom:-2px; left:50%; margin-left:-2px; }
+.orb-core { width:60px; height:60px; border-radius:50%; background:radial-gradient(circle at 35% 35%, rgba(56,189,248,.3), rgba(56,189,248,.05) 60%, transparent); border:1px solid rgba(56,189,248,.3); box-shadow:0 0 30px rgba(56,189,248,.15), inset 0 0 20px rgba(56,189,248,.05); position:relative; z-index:1; }
+.orb-inner { position:absolute; inset:14px; border-radius:50%; background:radial-gradient(circle at 30% 30%, rgba(56,189,248,.2), transparent); }
+@keyframes orbit { to { transform:rotate(360deg); } }
+.orb-grid { position:absolute; inset:0; border-radius:50%; background-image: linear-gradient(rgba(56,189,248,.04) 1px,transparent 1px), linear-gradient(90deg,rgba(56,189,248,.04) 1px,transparent 1px); background-size:14px 14px; }
+</style>
+</head>
+<body>
+
+<h2>// HERO DERECHO — visualmente global, ajeno al portfolio específico</h2>
+<div class="intro">Elementos que cualquier dev portfolio tendría — no contenido específico de Alfredo</div>
+
+<!-- A: CLOCK -->
+<div class="opt">
+  <div class="hero-row" onclick="pick(this)">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <div class="clock-widget">
+        <div class="clock-location"><span>Lima</span>, PE · UTC-5</div>
+        <div class="clock-time" id="clk">09:41</div>
+        <div class="clock-date" id="clkd">Fri, Jun 20 2025</div>
+        <div class="clock-status">
+          <div class="pulse"></div>
+          <span>available</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="opt-meta">
+    <span class="tag">A</span>
+    <div><div class="opt-title">Reloj en vivo + ubicación</div><div class="opt-desc">Hora real Lima/PE con indicador "available". Global, dinámico, humano. Muestra que estás presente.</div></div>
+  </div>
+</div>
+
+<!-- B: PARTICLE NETWORK -->
+<div class="opt">
+  <div class="hero-row" onclick="pick(this)">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <div class="particle-wrap">
+        <svg class="lines" viewBox="0 0 170 140">
+          <line class="line bright" x1="85" y1="70" x2="30" y2="20"/>
+          <line class="line bright" x1="85" y1="70" x2="145" y2="35"/>
+          <line class="line bright" x1="85" y1="70" x2="150" y2="110"/>
+          <line class="line bright" x1="85" y1="70" x2="25" y2="105"/>
+          <line class="line" x1="30" y1="20" x2="145" y2="35"/>
+          <line class="line" x1="145" y1="35" x2="150" y2="110"/>
+          <line class="line" x1="30" y1="20" x2="25" y2="105"/>
+          <line class="line" x1="25" y1="105" x2="150" y2="110"/>
+          <line class="line" x1="30" y1="20" x2="60" y2="8"/>
+          <line class="line" x1="145" y1="35" x2="165" y2="15"/>
+          <line class="line" x1="150" y1="110" x2="165" y2="130"/>
+          <line class="line" x1="25" y1="105" x2="10" y2="130"/>
+        </svg>
+        <!-- center -->
+        <div class="node center-node" style="left:82px;top:67px;"></div>
+        <!-- main nodes -->
+        <div class="node" style="left:27px;top:17px;"></div>
+        <div class="node" style="left:142px;top:32px;"></div>
+        <div class="node" style="left:147px;top:107px;"></div>
+        <div class="node" style="left:22px;top:102px;"></div>
+        <!-- outer nodes -->
+        <div class="node dim" style="left:57px;top:5px;"></div>
+        <div class="node dim" style="left:162px;top:12px;"></div>
+        <div class="node dim" style="left:162px;top:127px;"></div>
+        <div class="node dim" style="left:7px;top:127px;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="opt-meta">
+    <span class="tag">B</span>
+    <div><div class="opt-title">Red de partículas</div><div class="opt-desc">Nodos conectados, abstracto y tech. Completamente genérico — podría ser cualquier dev portfolio.</div></div>
+  </div>
+</div>
+
+<!-- C: TYPING ROLES -->
+<div class="opt">
+  <div class="hero-row" onclick="pick(this)">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <div class="typing-wrap">
+        <div class="typing-header"><span>❯</span> ./describe.sh</div>
+        <div class="typing-line">Backend Developer<span class="typing-cursor"></span></div>
+        <div class="role-badge">API Architect</div>
+        <div class="typing-tags">
+          <span class="tt">problem-solver</span>
+          <span class="tt">team-player</span>
+          <span class="tt">open-to-work</span>
+          <span class="tt">always-learning</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="opt-meta">
+    <span class="tag">C</span>
+    <div><div class="opt-title">Typing + roles</div><div class="opt-desc">Texto que se escribe con cursor, roles y hashtags. Dinámico, ligero, personalidad sin ser específico.</div></div>
+  </div>
+</div>
+
+<!-- D: ORB -->
+<div class="opt">
+  <div class="hero-row" onclick="pick(this)">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <div class="orb-wrap">
+        <div class="orb-outer"></div>
+        <div class="orb-mid"></div>
+        <div class="orb-core">
+          <div class="orb-inner"></div>
+          <div class="orb-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="opt-meta">
+    <span class="tag">D</span>
+    <div><div class="opt-title">Orb / esfera orbital</div><div class="opt-desc">Esfera con anillos orbitando. Abstracto, elegante, 100% visual. No dice nada — solo impresiona.</div></div>
+  </div>
+</div>
+
+<script>
+// Live clock
+function updateClock() {
+  const now = new Date(new Date().toLocaleString('en-US',{timeZone:'America/Lima'}));
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('clk');
+  if(el) el.textContent = `${h}:${m}:${s}`;
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const d = document.getElementById('clkd');
+  if(d) d.textContent = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()} ${now.getFullYear()}`;
+}
+updateClock(); setInterval(updateClock, 1000);
+
+function pick(el) {
+  document.querySelectorAll('.hero-row').forEach(e => { e.classList.remove('sel'); e.style.borderColor='#1e3a5f'; e.style.boxShadow='none'; });
+  el.classList.add('sel');
+}
+</script>
+</body>
+</html>

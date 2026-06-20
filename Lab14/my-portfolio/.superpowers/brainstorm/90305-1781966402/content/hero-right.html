@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#020c1b; font-family:'Segoe UI',sans-serif; padding:20px; }
+h2 { color:#64748b; font-size:11px; font-family:'Courier New',monospace; letter-spacing:2px; margin-bottom:20px; }
+
+.option-wrap { margin-bottom:28px; }
+.opt-label { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.tag { background:rgba(56,189,248,.08); border:1px solid rgba(56,189,248,.15); color:#38bdf8; font-size:9px; padding:2px 8px; border-radius:3px; font-family:'Courier New',monospace; }
+.opt-title { color:#f8fafc; font-size:13px; font-weight:700; }
+.opt-desc { color:#64748b; font-size:11px; }
+
+.hero-row {
+  background:#0f172a; border:1px solid #1e3a5f; border-radius:8px;
+  display:flex; align-items:center; overflow:hidden; height:180px;
+  cursor:pointer; transition:border-color .25s, box-shadow .25s;
+}
+.hero-row:hover { border-color:#38bdf8; box-shadow:0 0 20px rgba(56,189,248,.12); }
+
+/* LEFT SIDE (common) */
+.left {
+  padding:28px 32px; flex:1;
+}
+.eyebrow { font-size:9px; color:#38bdf8; letter-spacing:3px; font-family:'Courier New',monospace; margin-bottom:8px; }
+.name { font-size:30px; font-weight:900; color:#f8fafc; line-height:1; letter-spacing:-1px; margin-bottom:6px; }
+.name span { color:#38bdf8; }
+.accent { width:32px; height:2px; background:linear-gradient(90deg,#38bdf8,transparent); margin:6px 0; }
+.role { font-size:9px; color:#94a3b8; margin-bottom:12px; }
+.btns { display:flex; gap:6px; }
+.bp { background:#38bdf8; color:#0f172a; font-size:8px; font-weight:700; padding:5px 12px; border-radius:3px; }
+.bg { border:1px solid #334155; color:#94a3b8; font-size:8px; padding:5px 12px; border-radius:3px; }
+
+/* RIGHT: divider */
+.right {
+  width:200px; flex-shrink:0;
+  border-left:1px solid #1e3a5f;
+  height:100%;
+  display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+  padding:16px;
+}
+
+/* ── A: CODE SNIPPET ── */
+.code-block {
+  background:#0a1628; border:1px solid #1e3a5f; border-radius:6px;
+  padding:10px 12px; font-family:'Courier New',monospace; font-size:8px;
+  line-height:1.7; width:100%;
+}
+.c-gray { color:#4a5568; }
+.c-blue { color:#38bdf8; }
+.c-green { color:#22c55e; }
+.c-yellow { color:#f59e0b; }
+.c-white { color:#e2e8f0; }
+.c-purple { color:#a78bfa; }
+
+/* ── B: TECH GRID ── */
+.tech-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:6px; width:100%;
+}
+.tech-pill {
+  background:rgba(56,189,248,.06); border:1px solid rgba(56,189,248,.12);
+  border-radius:4px; padding:5px 4px; text-align:center;
+  font-family:'Courier New',monospace; font-size:7px; color:#94a3b8;
+  line-height:1.3;
+}
+.tech-pill .dot { width:5px; height:5px; border-radius:50%; margin:0 auto 3px; }
+
+/* ── C: FLOATING STAT CARDS ── */
+.stat-cards {
+  display:flex; flex-direction:column; gap:6px; width:100%;
+}
+.stat-card {
+  background:#1e293b; border:1px solid #334155; border-radius:5px;
+  padding:7px 10px; display:flex; align-items:center; gap:8px;
+}
+.stat-num { font-size:16px; font-weight:900; color:#38bdf8; font-family:'Courier New',monospace; line-height:1; }
+.stat-label { font-size:8px; color:#64748b; line-height:1.4; }
+
+/* ── D: ASCII / GEOMETRIC ── */
+.geo {
+  position:relative; width:110px; height:110px;
+}
+.ring {
+  position:absolute; border-radius:50%; border-style:solid;
+}
+.r1 { width:110px;height:110px; top:0;left:0; border-width:1px; border-color:rgba(56,189,248,.2); }
+.r2 { width:80px;height:80px; top:15px;left:15px; border-width:1px; border-color:rgba(56,189,248,.35); border-style:dashed; animation:spin 20s linear infinite; }
+.r3 { width:50px;height:50px; top:30px;left:30px; border-width:1px; border-color:rgba(56,189,248,.5); }
+.geo-center { width:20px;height:20px; background:#38bdf8; border-radius:50%; position:absolute; top:45px;left:45px; box-shadow:0 0 16px rgba(56,189,248,.7); }
+.geo-dot { width:4px;height:4px; background:#38bdf8; border-radius:50%; position:absolute; box-shadow:0 0 6px rgba(56,189,248,.8); }
+@keyframes spin { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<h2>// ¿Qué va en el lado derecho del hero?</h2>
+
+<!-- A: CODE SNIPPET -->
+<div class="option-wrap">
+  <div class="hero-row" onclick="pick('a')">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <div class="code-block">
+        <div><span class="c-gray">// about.ts</span></div>
+        <div><span class="c-purple">const</span> <span class="c-blue">dev</span> <span class="c-white">= {</span></div>
+        <div>&nbsp;<span class="c-green">name</span><span class="c-white">:</span> <span class="c-yellow">"Alfredo"</span><span class="c-white">,</span></div>
+        <div>&nbsp;<span class="c-green">stack</span><span class="c-white">: [</span></div>
+        <div>&nbsp;&nbsp;<span class="c-yellow">"NestJS"</span><span class="c-white">,</span></div>
+        <div>&nbsp;&nbsp;<span class="c-yellow">"Node.js"</span><span class="c-white">,</span></div>
+        <div>&nbsp;&nbsp;<span class="c-yellow">"TypeScript"</span></div>
+        <div>&nbsp;<span class="c-white">],</span></div>
+        <div>&nbsp;<span class="c-green">open</span><span class="c-white">:</span> <span class="c-blue">true</span></div>
+        <div><span class="c-white">}</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="opt-label" style="margin-top:6px;">
+    <span class="tag">A</span>
+    <div><div class="opt-title">Code snippet</div><div class="opt-desc">Un objeto JS/TS que te describe. Dev aesthetic puro.</div></div>
+  </div>
+</div>
+
+<!-- B: TECH GRID -->
+<div class="option-wrap">
+  <div class="hero-row" onclick="pick('b')">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <div class="tech-grid">
+        <div class="tech-pill"><div class="dot" style="background:#22c55e;"></div>NestJS</div>
+        <div class="tech-pill"><div class="dot" style="background:#38bdf8;"></div>Node.js</div>
+        <div class="tech-pill"><div class="dot" style="background:#3b82f6;"></div>TypeScript</div>
+        <div class="tech-pill"><div class="dot" style="background:#f59e0b;"></div>Python</div>
+        <div class="tech-pill"><div class="dot" style="background:#06b6d4;"></div>Next.js</div>
+        <div class="tech-pill"><div class="dot" style="background:#6366f1;"></div>PostgreSQL</div>
+        <div class="tech-pill"><div class="dot" style="background:#ef4444;"></div>Kotlin</div>
+        <div class="tech-pill"><div class="dot" style="background:#f97316;"></div>Spring</div>
+        <div class="tech-pill"><div class="dot" style="background:#64748b;"></div>MySQL</div>
+      </div>
+    </div>
+  </div>
+  <div class="opt-label" style="margin-top:6px;">
+    <span class="tag">B</span>
+    <div><div class="opt-title">Tech grid</div><div class="opt-desc">Grid de tecnologías con puntos de color por categoría.</div></div>
+  </div>
+</div>
+
+<!-- C: STAT CARDS -->
+<div class="option-wrap">
+  <div class="hero-row" onclick="pick('c')">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-num">3+</div>
+          <div class="stat-label">Proyectos<br/>completados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">5</div>
+          <div class="stat-label">Lenguajes<br/>dominados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Ganas de<br/>aprender</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="opt-label" style="margin-top:6px;">
+    <span class="tag">C</span>
+    <div><div class="opt-title">Stat cards</div><div class="opt-desc">Números flotantes — proyectos, lenguajes, etc.</div></div>
+  </div>
+</div>
+
+<!-- D: GEOMETRIC -->
+<div class="option-wrap">
+  <div class="hero-row" onclick="pick('d')">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <div class="geo">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="geo-center"></div>
+        <div class="geo-dot" style="top:4px;left:51px;"></div>
+        <div class="geo-dot" style="top:51px;left:103px;"></div>
+        <div class="geo-dot" style="top:103px;left:51px;"></div>
+        <div class="geo-dot" style="top:51px;left:1px;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="opt-label" style="margin-top:6px;">
+    <span class="tag">D</span>
+    <div><div class="opt-title">Geométrico / orbital</div><div class="opt-desc">Anillos concéntricos con rotación. Abstracto y tech.</div></div>
+  </div>
+</div>
+
+<script>
+function pick(id) {
+  document.querySelectorAll('.hero-row').forEach(e => e.style.borderColor='#1e3a5f');
+  const rows = document.querySelectorAll('.hero-row');
+  const idx = {a:0,b:1,c:2,d:3}[id];
+  rows[idx].style.borderColor = '#38bdf8';
+  rows[idx].style.boxShadow = '0 0 20px rgba(56,189,248,.15)';
+  if (window.recordChoice) window.recordChoice(id, id);
+}
+</script>
+</body>
+</html>

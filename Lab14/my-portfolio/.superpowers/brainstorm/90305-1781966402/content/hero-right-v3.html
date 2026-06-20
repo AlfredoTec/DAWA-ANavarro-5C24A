@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#020c1b; font-family:'Segoe UI',sans-serif; padding:20px; }
+h2 { color:#64748b; font-size:11px; font-family:'Courier New',monospace; letter-spacing:2px; margin-bottom:20px; }
+
+.opt { margin-bottom:28px; }
+.opt-meta { display:flex; align-items:flex-start; gap:8px; margin-top:8px; }
+.tag { background:rgba(56,189,248,.08); border:1px solid rgba(56,189,248,.15); color:#38bdf8; font-size:9px; padding:2px 8px; border-radius:3px; font-family:'Courier New',monospace; flex-shrink:0; }
+.opt-title { color:#f8fafc; font-size:13px; font-weight:700; }
+.opt-desc { color:#64748b; font-size:11px; margin-top:2px; }
+
+/* HERO — sin separador, bloque unificado */
+.hero {
+  background:#0f172a; border:1px solid #1e3a5f; border-radius:8px;
+  display:flex; align-items:center; overflow:hidden; height:180px;
+  cursor:pointer; transition:border-color .25s, box-shadow .25s;
+  position:relative;
+}
+.hero:hover, .hero.sel { border-color:#38bdf8; box-shadow:0 0 20px rgba(56,189,248,.12); }
+
+.left { padding:24px 28px; flex:1; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:1; }
+.eyebrow { font-size:9px; color:#38bdf8; letter-spacing:3px; font-family:'Courier New',monospace; margin-bottom:7px; }
+.name { font-size:26px; font-weight:900; color:#f8fafc; line-height:1; letter-spacing:-1px; margin-bottom:4px; }
+.name span { color:#38bdf8; }
+.accent { width:28px; height:2px; background:linear-gradient(90deg,#38bdf8,transparent); margin:5px 0; }
+.role { font-size:9px; color:#94a3b8; margin-bottom:10px; }
+.btns { display:flex; gap:6px; }
+.bp { background:#38bdf8; color:#0f172a; font-size:7px; font-weight:700; padding:4px 10px; border-radius:3px; }
+.bg { border:1px solid #334155; color:#94a3b8; font-size:7px; padding:4px 10px; border-radius:3px; }
+
+/* RIGHT — sin borde, fade desde el contenido */
+.right {
+  width:220px; flex-shrink:0; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+}
+/* fade que une left con right */
+.right::before {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0; width:60px;
+  background:linear-gradient(90deg,#0f172a,transparent);
+  z-index:2; pointer-events:none;
+}
+
+/* ── A: MATRIX BINARY RAIN ── */
+canvas.matrix { position:absolute; inset:0; opacity:.6; }
+
+/* ── B: SINE WAVE / EQUALIZER ── */
+.eq-wrap { display:flex; align-items:flex-end; gap:3px; height:110px; position:relative; z-index:1; }
+.eq-bar {
+  width:8px; border-radius:2px 2px 0 0;
+  background:linear-gradient(180deg,#38bdf8,rgba(56,189,248,.2));
+  transform-origin:bottom;
+}
+
+/* ── C: CIRCUIT TRACES ── */
+.circuit { position:absolute; inset:0; z-index:1; }
+
+/* ── D: CONSTELLATION ── */
+canvas.constellation { position:absolute; inset:0; }
+</style>
+</head>
+<body>
+
+<h2>// HERO DERECHO — nuevas opciones, sin separador visual</h2>
+
+<!-- A: BINARY RAIN -->
+<div class="opt">
+  <div class="hero" id="ha" onclick="pick('a')">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <canvas class="matrix" id="ca" width="220" height="180"></canvas>
+    </div>
+  </div>
+  <div class="opt-meta">
+    <span class="tag">A</span>
+    <div>
+      <div class="opt-title">Matrix / binary rain</div>
+      <div class="opt-desc">Lluvia de 0s y 1s cayendo en cyan, fade suave desde el texto. Icónico, dev, se mueve.</div>
+    </div>
+  </div>
+</div>
+
+<!-- B: EQUALIZER / AUDIO BARS -->
+<div class="opt">
+  <div class="hero" id="hb" onclick="pick('b')">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right" style="align-items:flex-end;padding-bottom:20px;">
+      <div class="eq-wrap" id="eq">
+        <!-- bars injected by JS -->
+      </div>
+    </div>
+  </div>
+  <div class="opt-meta">
+    <span class="tag">B</span>
+    <div>
+      <div class="opt-title">Visualizador de frecuencias</div>
+      <div class="opt-desc">Barras tipo ecualizador / audio spectrum animadas. Rítmico, dinámico, abstracto.</div>
+    </div>
+  </div>
+</div>
+
+<!-- C: CIRCUIT BOARD -->
+<div class="opt">
+  <div class="hero" id="hc" onclick="pick('c')">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <svg class="circuit" viewBox="0 0 220 180" fill="none">
+        <!-- traces -->
+        <path d="M60 90 H100 V40 H180" stroke="rgba(56,189,248,.2)" stroke-width="1.5"/>
+        <path d="M100 90 H160 V130 H200" stroke="rgba(56,189,248,.15)" stroke-width="1.5"/>
+        <path d="M80 90 V150 H200" stroke="rgba(56,189,248,.12)" stroke-width="1.5"/>
+        <path d="M120 40 V20 H200" stroke="rgba(56,189,248,.1)" stroke-width="1"/>
+        <path d="M160 130 V160 H190" stroke="rgba(56,189,248,.1)" stroke-width="1"/>
+        <path d="M140 90 V60 H200" stroke="rgba(56,189,248,.15)" stroke-width="1"/>
+        <!-- pads / nodes -->
+        <circle cx="100" cy="40" r="3" fill="#38bdf8" opacity=".6"/>
+        <circle cx="160" cy="40" r="4" fill="none" stroke="#38bdf8" stroke-width="1" opacity=".5"/>
+        <circle cx="100" cy="90" r="3" fill="#38bdf8" opacity=".8"/>
+        <circle cx="160" cy="130" r="3" fill="#38bdf8" opacity=".5"/>
+        <circle cx="140" cy="60" r="2.5" fill="#7dd3fc" opacity=".6"/>
+        <circle cx="120" cy="20" r="2" fill="#38bdf8" opacity=".4"/>
+        <!-- ICs (rectangles) -->
+        <rect x="160" y="30" width="16" height="24" rx="2" fill="rgba(56,189,248,.06)" stroke="rgba(56,189,248,.25)" stroke-width="1"/>
+        <rect x="165" y="35" width="2" height="3" fill="rgba(56,189,248,.4)"/>
+        <rect x="165" y="41" width="2" height="3" fill="rgba(56,189,248,.4)"/>
+        <rect x="170" y="35" width="2" height="3" fill="rgba(56,189,248,.4)"/>
+        <rect x="170" y="41" width="2" height="3" fill="rgba(56,189,248,.4)"/>
+
+        <rect x="162" y="120" width="20" height="28" rx="2" fill="rgba(56,189,248,.06)" stroke="rgba(56,189,248,.2)" stroke-width="1"/>
+        <rect x="167" y="126" width="2" height="3" fill="rgba(56,189,248,.4)"/>
+        <rect x="167" y="132" width="2" height="3" fill="rgba(56,189,248,.4)"/>
+        <rect x="173" y="126" width="2" height="3" fill="rgba(56,189,248,.4)"/>
+
+        <!-- pulse dot animado -->
+        <circle cx="100" cy="90" r="6" fill="none" stroke="#38bdf8" stroke-width="0.8" opacity="0.4">
+          <animate attributeName="r" values="4;10;4" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.5;0;0.5" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <!-- traveling signal -->
+        <circle cx="0" cy="0" r="2" fill="#38bdf8" opacity="0.9">
+          <animateMotion dur="3s" repeatCount="indefinite" path="M60 90 H100 V40 H180"/>
+        </circle>
+        <circle cx="0" cy="0" r="1.5" fill="#7dd3fc" opacity="0.7">
+          <animateMotion dur="4s" repeatCount="indefinite" begin="1s" path="M100 90 H160 V130 H200"/>
+        </circle>
+      </svg>
+    </div>
+  </div>
+  <div class="opt-meta">
+    <span class="tag">C</span>
+    <div>
+      <div class="opt-title">Circuit board / PCB</div>
+      <div class="opt-desc">Trazos de circuito con señal viajando. Nodos, ICs, pulso animado. Tech puro, sin texto.</div>
+    </div>
+  </div>
+</div>
+
+<!-- D: CONSTELLATION -->
+<div class="opt">
+  <div class="hero" id="hd" onclick="pick('d')">
+    <div class="left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent"></div>
+      <div class="role">Node.js · NestJS · TypeScript</div>
+      <div class="btns"><div class="bp">Ver proyectos</div><div class="bg">LinkedIn</div></div>
+    </div>
+    <div class="right">
+      <canvas class="constellation" id="cd" width="220" height="180"></canvas>
+    </div>
+  </div>
+  <div class="opt-meta">
+    <span class="tag">D</span>
+    <div>
+      <div class="opt-title">Constelación de nodos</div>
+      <div class="opt-desc">Puntos flotando lentamente, se conectan al acercarse. Orgánico, vivo, elegante. Como una galaxia.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── MATRIX ── */
+(function(){
+  const c = document.getElementById('ca');
+  const ctx = c.getContext('2d');
+  const cols = Math.floor(c.width / 12);
+  const drops = Array(cols).fill(0).map(() => Math.random() * c.height / 14);
+  function draw() {
+    ctx.fillStyle = 'rgba(15,23,42,0.12)';
+    ctx.fillRect(0,0,c.width,c.height);
+    ctx.font = '11px Courier New';
+    for(let i=0;i<drops.length;i++){
+      const ch = Math.random()>0.5?'1':'0';
+      const alpha = 0.15 + Math.random()*0.5;
+      ctx.fillStyle = `rgba(56,189,248,${alpha})`;
+      ctx.fillText(ch, i*12+4, drops[i]*14);
+      if(drops[i]*14 > c.height && Math.random()>0.97) drops[i]=0;
+      drops[i]+=0.4;
+    }
+  }
+  setInterval(draw, 60);
+})();
+
+/* ── EQUALIZER ── */
+(function(){
+  const eq = document.getElementById('eq');
+  const barCount = 18;
+  const bars = [];
+  for(let i=0;i<barCount;i++){
+    const b = document.createElement('div');
+    b.className='eq-bar';
+    b.style.height = (20+Math.random()*60)+'px';
+    eq.appendChild(b);
+    bars.push(b);
+  }
+  function animEq() {
+    bars.forEach((b,i) => {
+      const h = 12 + Math.abs(Math.sin(Date.now()/400 + i*0.6))*80;
+      b.style.height = h+'px';
+      const intensity = h/92;
+      b.style.background = `linear-gradient(180deg,rgba(56,189,248,${0.5+intensity*0.5}),rgba(56,189,248,0.1))`;
+    });
+    requestAnimationFrame(animEq);
+  }
+  animEq();
+})();
+
+/* ── CONSTELLATION ── */
+(function(){
+  const c = document.getElementById('cd');
+  const ctx = c.getContext('2d');
+  const pts = Array(28).fill(0).map(()=>({
+    x: 30+Math.random()*180,
+    y: 10+Math.random()*160,
+    vx:(Math.random()-.5)*0.25,
+    vy:(Math.random()-.5)*0.25,
+    r: 1+Math.random()*1.5
+  }));
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<20||p.x>c.width-10) p.vx*=-1;
+      if(p.y<5||p.y>c.height-5) p.vy*=-1;
+    });
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<70){
+          ctx.strokeStyle=`rgba(56,189,248,${0.35*(1-d/70)})`;
+          ctx.lineWidth=0.7;
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x,pts[i].y);
+          ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    pts.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(56,189,248,${0.5+Math.random()*.3})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+function pick(id) {
+  ['ha','hb','hc','hd'].forEach(i=>{
+    const el=document.getElementById(i);
+    el.classList.remove('sel');
+    el.style.borderColor='#1e3a5f';
+    el.style.boxShadow='none';
+  });
+  const sel=document.getElementById('h'+id);
+  sel.classList.add('sel');
+}
+</script>
+</body>
+</html>

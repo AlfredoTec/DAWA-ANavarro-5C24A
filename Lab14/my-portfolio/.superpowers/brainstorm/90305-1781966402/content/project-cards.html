@@ -1,0 +1,80 @@
+<h2>¿Cómo se ven las tarjetas de proyecto?</h2>
+<p class="subtitle">Estilo Dark/Tech — fondo #0f172a</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="glow-border" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a;padding:14px;">
+      <div style="background:#1e293b;border:1px solid #334155;border-radius:8px;padding:12px;transition:border-color 0.3s;position:relative;overflow:hidden;">
+        <!-- Glow top border -->
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#38bdf8,transparent);"></div>
+        <div style="background:#334155;border-radius:4px;height:50px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:10px;color:#64748b;">[ imagen ]</div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:#f8fafc;margin-bottom:4px;">E-commerce Platform</div>
+        <div style="font-size:9px;color:#94a3b8;margin-bottom:8px;line-height:1.5;">Plataforma con Next.js, Stripe y PostgreSQL</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">
+          <span style="font-size:7px;background:rgba(56,189,248,0.1);color:#38bdf8;border:1px solid rgba(56,189,248,0.2);padding:2px 6px;border-radius:3px;">Next.js</span>
+          <span style="font-size:7px;background:rgba(56,189,248,0.1);color:#38bdf8;border:1px solid rgba(56,189,248,0.2);padding:2px 6px;border-radius:3px;">TypeScript</span>
+        </div>
+        <div style="font-size:8px;color:#38bdf8;">Ver detalles →</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Glow Border</h3>
+      <p>Borde cyan en la parte superior, fondo oscuro sutil. Elegante y tech.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="glass" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#0f172a 0%,#0f1f3a 100%);padding:14px;">
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px;backdrop-filter:blur(8px);">
+        <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:50px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;">
+          <div style="font-size:10px;color:#64748b;">[ imagen ]</div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:#f8fafc;margin-bottom:4px;">E-commerce Platform</div>
+        <div style="font-size:9px;color:#94a3b8;margin-bottom:8px;line-height:1.5;">Plataforma con Next.js, Stripe y PostgreSQL</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">
+          <span style="font-size:7px;background:rgba(255,255,255,0.08);color:#cbd5e1;border:1px solid rgba(255,255,255,0.1);padding:2px 6px;border-radius:3px;">Next.js</span>
+          <span style="font-size:7px;background:rgba(255,255,255,0.08);color:#cbd5e1;border:1px solid rgba(255,255,255,0.1);padding:2px 6px;border-radius:3px;">TypeScript</span>
+        </div>
+        <div style="font-size:8px;color:#e2e8f0;">Ver detalles →</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Glassmorphism</h3>
+      <p>Translúcido con blur. Moderno, sofisticado, contrasta bien con el fondo.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="terminal-card" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a;padding:14px;">
+      <div style="background:#1e293b;border:1px solid #334155;border-radius:6px;overflow:hidden;">
+        <!-- mini terminal header -->
+        <div style="background:#0f172a;padding:6px 10px;display:flex;align-items:center;gap:4px;border-bottom:1px solid #334155;">
+          <div style="width:6px;height:6px;background:#ef4444;border-radius:50%;"></div>
+          <div style="width:6px;height:6px;background:#f59e0b;border-radius:50%;"></div>
+          <div style="width:6px;height:6px;background:#22c55e;border-radius:50%;"></div>
+          <div style="font-size:8px;color:#64748b;margin-left:6px;font-family:monospace;">ecommerce-platform</div>
+        </div>
+        <div style="padding:10px;font-family:monospace;">
+          <div style="font-size:8px;color:#64748b;">$ cat README.md</div>
+          <div style="font-size:10px;font-weight:700;color:#f8fafc;margin:4px 0;"># E-commerce Platform</div>
+          <div style="font-size:8px;color:#94a3b8;margin-bottom:8px;line-height:1.5;">Next.js + Stripe + PostgreSQL</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">
+            <span style="font-size:7px;color:#22c55e;">●</span><span style="font-size:7px;color:#64748b;">Next.js</span>
+            <span style="font-size:7px;color:#f59e0b;">●</span><span style="font-size:7px;color:#64748b;">TypeScript</span>
+          </div>
+          <div style="font-size:8px;color:#38bdf8;">$ ./demo.sh ↵</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Terminal Card</h3>
+      <p>Cada proyecto como ventana de terminal. Consistente con el hero, 100% dev aesthetic.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Haz click en tu favorito y dime en el terminal.</p>

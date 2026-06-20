@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diseño Final — Alfredo Navarro Portfolio</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#020c1b; color:#ccd6f6; font-family:'Segoe UI',sans-serif; }
+
+/* ── NAV ── */
+nav {
+  background:rgba(2,12,27,.95); border-bottom:1px solid rgba(56,189,248,.08);
+  padding:14px 48px; display:flex; justify-content:space-between; align-items:center;
+  position:sticky; top:0; z-index:100; backdrop-filter:blur(10px);
+}
+.nav-logo { font-family:'Courier New',monospace; font-size:13px; color:#f8fafc; font-weight:700; }
+.nav-logo span { color:#38bdf8; }
+.nav-links { display:flex; gap:28px; list-style:none; }
+.nav-links a { font-size:12px; color:#94a3b8; text-decoration:none; transition:color .2s; }
+.nav-links a:hover { color:#38bdf8; }
+
+/* ── HERO ── */
+.hero {
+  min-height:92vh; display:flex; align-items:center;
+  padding:0 48px; position:relative; overflow:hidden;
+}
+.hero-bg-grid {
+  position:absolute; inset:0;
+  background-image:linear-gradient(rgba(56,189,248,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.03) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.hero-left { flex:1; position:relative; z-index:2; max-width:560px; }
+.eyebrow { font-family:'Courier New',monospace; font-size:11px; color:#38bdf8; letter-spacing:4px; margin-bottom:18px; }
+.hero-name { font-size:72px; font-weight:900; color:#f8fafc; line-height:.95; letter-spacing:-3px; margin-bottom:14px; }
+.hero-name span { color:#38bdf8; }
+.accent-line { width:56px; height:3px; background:linear-gradient(90deg,#38bdf8,transparent); border-radius:2px; margin-bottom:16px; }
+.hero-role { font-size:16px; color:#94a3b8; letter-spacing:1px; margin-bottom:14px; }
+.hero-role .sep { color:#334155; margin:0 10px; }
+.hero-desc { font-size:14px; color:#64748b; max-width:420px; line-height:1.75; margin-bottom:32px; }
+.hero-btns { display:flex; gap:14px; align-items:center; }
+.btn-primary { background:#38bdf8; color:#0f172a; font-size:13px; font-weight:700; padding:12px 28px; border-radius:5px; text-decoration:none; letter-spacing:.3px; }
+.btn-secondary { border:1px solid #334155; color:#94a3b8; font-size:13px; padding:12px 28px; border-radius:5px; text-decoration:none; transition:border-color .2s,color .2s; }
+.btn-secondary:hover { border-color:#38bdf8; color:#38bdf8; }
+.hero-right { width:420px; flex-shrink:0; height:480px; position:relative; }
+canvas#constellation { position:absolute; inset:0; width:100%; height:100%; }
+/* fade left edge of canvas */
+.hero-right::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:120px;
+  background:linear-gradient(90deg,#0f172a,transparent); z-index:3; pointer-events:none;
+}
+
+/* ── SECTION SHARED ── */
+.section { padding:80px 48px; max-width:1100px; margin:0 auto; }
+.section-eyebrow { font-family:'Courier New',monospace; font-size:10px; color:#38bdf8; letter-spacing:3px; margin-bottom:6px; }
+.section-title { font-size:32px; font-weight:800; color:#e2e8f0; margin-bottom:8px; }
+.section-div { width:40px; height:2px; background:#38bdf8; margin-bottom:40px; }
+
+/* ── SENIORITY ── */
+.seniority-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.sen-card {
+  background:#0f172a; border:1px solid #1e3a5f; border-radius:8px; padding:16px 18px;
+}
+.sen-lang { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.sen-name { font-family:'Courier New',monospace; font-size:12px; color:#f8fafc; font-weight:700; }
+.sen-level {
+  font-family:'Courier New',monospace; font-size:9px; padding:2px 8px; border-radius:3px;
+}
+.lv-mid { background:rgba(56,189,248,.1); color:#38bdf8; border:1px solid rgba(56,189,248,.2); }
+.lv-junior { background:rgba(34,197,94,.08); color:#22c55e; border:1px solid rgba(34,197,94,.2); }
+.lv-learning { background:rgba(245,158,11,.08); color:#f59e0b; border:1px solid rgba(245,158,11,.2); }
+.sen-bar-track { height:3px; background:#1e293b; border-radius:2px; overflow:hidden; }
+.sen-bar-fill { height:100%; border-radius:2px; }
+.fill-nestjs { width:88%; background:linear-gradient(90deg,#38bdf8,#7dd3fc); }
+.fill-node { width:82%; background:linear-gradient(90deg,#38bdf8,#7dd3fc); }
+.fill-ts { width:78%; background:linear-gradient(90deg,#38bdf8,#7dd3fc); }
+.fill-py { width:70%; background:linear-gradient(90deg,#22c55e,#86efac); }
+.fill-js { width:74%; background:linear-gradient(90deg,#22c55e,#86efac); }
+.fill-next { width:60%; background:linear-gradient(90deg,#f59e0b,#fcd34d); }
+
+/* ── PROJECT CARDS ── */
+.projects-list { display:flex; flex-direction:column; gap:20px; }
+.project-card {
+  background:#0f172a; border:1px solid #1e3a5f; border-radius:8px; overflow:hidden;
+  display:flex; transition:border-color .3s,box-shadow .3s;
+}
+.project-card:hover { border-color:#38bdf8; box-shadow:0 0 24px rgba(56,189,248,.08); }
+.project-card.rev { flex-direction:row-reverse; }
+.project-img { width:240px; flex-shrink:0; position:relative; overflow:hidden; }
+.project-img img { width:100%; height:100%; object-fit:cover; opacity:.6; transition:opacity .3s; filter:grayscale(15%); }
+.project-card:hover .project-img img { opacity:.8; }
+.project-img::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent 55%,#0f172a);
+}
+.project-card.rev .project-img::after { background:linear-gradient(270deg,transparent 55%,#0f172a); }
+.project-terminal { flex:1; display:flex; flex-direction:column; }
+.term-chrome { background:#1e293b; padding:8px 14px; display:flex; align-items:center; gap:5px; border-bottom:1px solid #1e3a5f; }
+.dot { width:8px; height:8px; border-radius:50%; }
+.dr{background:#ef4444;} .dy{background:#f59e0b;} .dg{background:#22c55e;}
+.term-slug { font-family:'Courier New',monospace; font-size:10px; color:#64748b; margin-left:8px; }
+.term-body { padding:18px 22px; font-family:'Courier New',monospace; flex:1; }
+.term-cmd { font-size:10px; color:#64748b; margin-bottom:6px; }
+.term-title { font-size:17px; font-weight:700; color:#f8fafc; margin-bottom:6px; }
+.term-desc { font-size:11px; color:#94a3b8; line-height:1.7; margin-bottom:12px; font-family:'Segoe UI',sans-serif; }
+.term-tags { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:14px; }
+.ttag { font-size:9px; padding:2px 8px; border-radius:3px; }
+.tg { background:rgba(34,197,94,.08); color:#22c55e; border:1px solid rgba(34,197,94,.2); }
+.tb { background:rgba(56,189,248,.08); color:#38bdf8; border:1px solid rgba(56,189,248,.2); }
+.ty { background:rgba(245,158,11,.08); color:#f59e0b; border:1px solid rgba(245,158,11,.2); }
+.term-links { display:flex; gap:16px; }
+.tlink { font-size:10px; color:#38bdf8; text-decoration:none; }
+.tlink:hover { text-decoration:underline; }
+.tlink.dim { color:#64748b; }
+
+/* ── FOOTER ── */
+footer {
+  border-top:1px solid rgba(56,189,248,.08); padding:28px 48px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:'Courier New',monospace; font-size:11px; color:#475569;
+}
+footer a { color:#64748b; text-decoration:none; }
+footer a:hover { color:#38bdf8; }
+.foot-links { display:flex; gap:20px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">alfredo<span>.</span>dev</div>
+  <ul class="nav-links">
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Proyectos</a></li>
+    <li><a href="#">Sobre mí</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section style="position:relative;background:#0f172a;overflow:hidden;">
+  <div class="hero-bg-grid"></div>
+  <div class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">BACKEND DEVELOPER</div>
+      <div class="hero-name">Alfredo<br/><span>Navarro.</span></div>
+      <div class="accent-line"></div>
+      <div class="hero-role">Node.js <span class="sep">·</span> NestJS <span class="sep">·</span> TypeScript</div>
+      <div class="hero-desc">Estudiante de Diseño y Desarrollo de Software en TECSUP.<br/>Construyo APIs sólidas y sistemas escalables.</div>
+      <div class="hero-btns">
+        <a class="btn-primary" href="#">Ver proyectos</a>
+        <a class="btn-secondary" href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <canvas id="constellation"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- SENIORITY -->
+<div class="section">
+  <div class="section-eyebrow">// habilidades</div>
+  <div class="section-title">Nivel por tecnología</div>
+  <div class="section-div"></div>
+  <div class="seniority-grid">
+    <div class="sen-card">
+      <div class="sen-lang"><span class="sen-name">NestJS</span><span class="sen-level lv-mid">Mid</span></div>
+      <div class="sen-bar-track"><div class="sen-bar-fill fill-nestjs"></div></div>
+    </div>
+    <div class="sen-card">
+      <div class="sen-lang"><span class="sen-name">Node.js</span><span class="sen-level lv-mid">Mid</span></div>
+      <div class="sen-bar-track"><div class="sen-bar-fill fill-node"></div></div>
+    </div>
+    <div class="sen-card">
+      <div class="sen-lang"><span class="sen-name">TypeScript</span><span class="sen-level lv-mid">Mid</span></div>
+      <div class="sen-bar-track"><div class="sen-bar-fill fill-ts"></div></div>
+    </div>
+    <div class="sen-card">
+      <div class="sen-lang"><span class="sen-name">JavaScript</span><span class="sen-level lv-junior">Junior</span></div>
+      <div class="sen-bar-track"><div class="sen-bar-fill fill-js"></div></div>
+    </div>
+    <div class="sen-card">
+      <div class="sen-lang"><span class="sen-name">Python</span><span class="sen-level lv-junior">Junior</span></div>
+      <div class="sen-bar-track"><div class="sen-bar-fill fill-py"></div></div>
+    </div>
+    <div class="sen-card">
+      <div class="sen-lang"><span class="sen-name">Next.js</span><span class="sen-level lv-learning">Learning</span></div>
+      <div class="sen-bar-track"><div class="sen-bar-fill fill-next"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="section" style="padding-top:0;">
+  <div class="section-eyebrow">// proyectos</div>
+  <div class="section-title">Lo que he construido</div>
+  <div class="section-div"></div>
+  <div class="projects-list">
+
+    <!-- TechStore — img left -->
+    <div class="project-card">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?q=75&w=640&auto=format&fit=crop" alt="TechStore"/>
+      </div>
+      <div class="project-terminal">
+        <div class="term-chrome"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><span class="term-slug">techstore-ecommerce</span></div>
+        <div class="term-body">
+          <div class="term-cmd">$ cat README.md</div>
+          <div class="term-title"># TechStore</div>
+          <div class="term-desc">Plataforma de e-commerce para productos tecnológicos. Catálogo, carrito y pasarela de pagos. Backend modular en NestJS con TypeORM sobre PostgreSQL; frontend en Next.js.</div>
+          <div class="term-tags">
+            <span class="ttag tg">NestJS</span><span class="ttag tb">Next.js</span><span class="ttag ty">TypeORM</span><span class="ttag tb">PostgreSQL</span><span class="ttag tg">TypeScript</span>
+          </div>
+          <div class="term-links"><a class="tlink" href="#">$ ./github ↵</a><a class="tlink dim" href="#">$ ./demo ↵</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EsSalud — img right -->
+    <div class="project-card rev">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?q=75&w=640&auto=format&fit=crop" alt="EsSalud"/>
+      </div>
+      <div class="project-terminal">
+        <div class="term-chrome"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><span class="term-slug">essalud-app</span></div>
+        <div class="term-body">
+          <div class="term-cmd">$ cat README.md</div>
+          <div class="term-title"># EsSalud App</div>
+          <div class="term-desc">Sistema de citas médicas web y móvil con IA. Stack multi-plataforma: Kotlin + Jetpack Compose, Python + Django, Java + Spring Boot.</div>
+          <div class="term-tags">
+            <span class="ttag ty">Python</span><span class="ttag tg">Django</span><span class="ttag tb">Kotlin</span><span class="ttag ty">Spring Boot</span><span class="ttag tg">IA</span>
+          </div>
+          <div class="term-links"><a class="tlink" href="#">$ ./github ↵</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coffe Vibes — img left -->
+    <div class="project-card">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1605379399642-870262d3d051?q=75&w=640&auto=format&fit=crop" alt="Coffe Vibes"/>
+      </div>
+      <div class="project-terminal">
+        <div class="term-chrome"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><span class="term-slug">coffe-vibes</span></div>
+        <div class="term-body">
+          <div class="term-cmd">$ cat README.md</div>
+          <div class="term-title"># Coffe Vibes</div>
+          <div class="term-desc">Cafetería online con recojo en local y delivery. Pasarela de productos y medios de pago. JavaScript + EJS.</div>
+          <div class="term-tags">
+            <span class="ttag ty">JavaScript</span><span class="ttag tg">EJS</span><span class="ttag tb">Node.js</span>
+          </div>
+          <div class="term-links"><a class="tlink" href="#">$ ./github ↵</a></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>// alfredo navarro tejeda · 2025</span>
+  <div class="foot-links">
+    <a href="mailto:alfredont1088@gmail.com">alfredont1088@gmail.com</a>
+    <a href="https://linkedin.com/in/alfredont">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+// Constellation
+(function(){
+  const c = document.getElementById('constellation');
+  const w = c.parentElement.offsetWidth;
+  const h = c.parentElement.offsetHeight;
+  c.width = w; c.height = h;
+  const ctx = c.getContext('2d');
+  const pts = Array(40).fill(0).map(()=>({
+    x:20+Math.random()*(w-40), y:10+Math.random()*(h-20),
+    vx:(Math.random()-.5)*.3, vy:(Math.random()-.5)*.3,
+    r:1+Math.random()*1.8
+  }));
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<10||p.x>w-10) p.vx*=-1;
+      if(p.y<5||p.y>h-5) p.vy*=-1;
+    });
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<90){
+          ctx.strokeStyle=`rgba(56,189,248,${.3*(1-d/90)})`;
+          ctx.lineWidth=.7;
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x,pts[i].y);
+          ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    pts.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(56,189,248,.7)';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Opciones — márgenes laterales</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#020c1b;font-family:'Segoe UI',sans-serif;color:#ccd6f6;}
+h1{font-family:'Courier New',monospace;font-size:11px;color:#38bdf8;letter-spacing:3px;
+   padding:20px 32px;border-bottom:1px solid #1e3a5f;}
+
+/* shared content block simulation */
+.opt{
+  background:#0f172a;
+  background-image:linear-gradient(rgba(56,189,248,.025) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(56,189,248,.025) 1px,transparent 1px);
+  background-size:52px 52px;
+  padding:40px 0;
+  position:relative;
+  border-bottom:3px solid #1e3a5f;
+  min-height:200px;
+  overflow:hidden;
+}
+.opt-label{
+  position:absolute;top:12px;left:20px;
+  font-family:'Courier New',monospace;font-size:10px;color:#38bdf8;
+  background:#0f172a;padding:4px 10px;border:1px solid rgba(56,189,248,.2);border-radius:4px;
+  z-index:10;
+}
+
+/* ── OPCIÓN A: full-width sin max-width ── */
+/* el contenido usa padding grande, se extiende a ambos lados */
+.optA .inner{
+  padding:0 8%;
+}
+.optA-desc{
+  font-size:11px;color:#475569;font-family:'Courier New',monospace;
+  text-align:center;margin-top:8px;
+}
+
+/* ── OPCIÓN B: líneas guía verticales ── */
+/* raíles cyan en los bordes del content area */
+.optB .inner{
+  padding:0 8%;
+  position:relative;
+}
+.optB .inner::before,
+.optB .inner::after{
+  content:'';position:absolute;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(56,189,248,.25) 20%,rgba(56,189,248,.25) 80%,transparent);
+}
+.optB .inner::before{left:8%;}
+.optB .inner::after{right:8%;}
+
+/* ── OPCIÓN C: número de líneas en gutter ── */
+.optC .inner{
+  padding:0 8%;
+  position:relative;
+}
+.gutter{
+  position:absolute;top:0;bottom:0;width:7%;
+  display:flex;flex-direction:column;justify-content:space-around;align-items:flex-end;
+  padding-right:16px;
+  font-family:'Courier New',monospace;font-size:9px;color:rgba(56,189,248,.18);
+  user-select:none;
+}
+.gutter.right{left:auto;right:0;align-items:flex-start;padding-right:0;padding-left:16px;}
+
+/* shared fake content blocks */
+.fake-header{
+  height:12px;border-radius:3px;
+  background:rgba(56,189,248,.12);margin-bottom:12px;width:40%;
+}
+.fake-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+}
+.fake-card{
+  height:60px;border-radius:6px;
+  background:rgba(30,41,59,.6);border:1px solid #1e3a5f;
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;
+}
+.fake-icon{width:24px;height:24px;border-radius:4px;background:rgba(56,189,248,.1);flex-shrink:0;}
+.fake-lines{flex:1;display:flex;flex-direction:column;gap:5px;}
+.fl1{height:6px;border-radius:2px;background:rgba(248,250,252,.15);width:70%;}
+.fl2{height:4px;border-radius:2px;background:rgba(248,250,252,.07);width:45%;}
+</style>
+</head>
+<body>
+
+<h1>// MÁRGENES LATERALES — 3 opciones para los costados</h1>
+
+<!-- ══ OPCIÓN A ══ -->
+<div class="opt optA">
+  <div class="opt-label">A — Full bleed / sin max-width</div>
+  <div class="inner">
+    <div class="fake-header"></div>
+    <div class="fake-grid">
+      <div class="fake-card"><div class="fake-icon"></div><div class="fake-lines"><div class="fl1"></div><div class="fl2"></div></div></div>
+      <div class="fake-card"><div class="fake-icon"></div><div class="fake-lines"><div class="fl1"></div><div class="fl2"></div></div></div>
+      <div class="fake-card"><div class="fake-icon"></div><div class="fake-lines"><div class="fl1"></div><div class="fl2"></div></div></div>
+    </div>
+  </div>
+  <p class="optA-desc">Contenido con padding 8% a cada lado. Sin max-width. El grid de fondo llena todo. Los costados quedan naturalmente cubiertos por el fondo + grid.</p>
+</div>
+
+<!-- ══ OPCIÓN B ══ -->
+<div class="opt optB">
+  <div class="opt-label">B — Raíles verticales cyan</div>
+  <div class="inner">
+    <div class="fake-header"></div>
+    <div class="fake-grid">
+      <div class="fake-card"><div class="fake-icon"></div><div class="fake-lines"><div class="fl1"></div><div class="fl2"></div></div></div>
+      <div class="fake-card"><div class="fake-icon"></div><div class="fake-lines"><div class="fl1"></div><div class="fl2"></div></div></div>
+      <div class="fake-card"><div class="fake-icon"></div><div class="fake-lines"><div class="fl1"></div><div class="fl2"></div></div></div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:#475569;font-family:'Courier New',monospace;text-align:center;margin-top:8px;">Líneas sutiles en los bordes del content area. Define visualmente el "column" sin necesidad de llenar el espacio vacío.</p>
+</div>
+
+<!-- ══ OPCIÓN C ══ -->
+<div class="opt optC">
+  <div class="opt-label">C — Números de línea en gutter (code editor)</div>
+  <div class="inner">
+    <!-- gutter izquierdo -->
+    <div class="gutter">
+      <span>01</span><span>02</span><span>03</span>
+      <span>04</span><span>05</span><span>06</span>
+      <span>07</span><span>08</span>
+    </div>
+    <!-- gutter derecho -->
+    <div class="gutter right">
+      <span>//</span><span>//</span><span>//</span>
+      <span>//</span><span>//</span><span>//</span>
+      <span>//</span><span>//</span>
+    </div>
+    <div class="fake-header"></div>
+    <div class="fake-grid">
+      <div class="fake-card"><div class="fake-icon"></div><div class="fake-lines"><div class="fl1"></div><div class="fl2"></div></div></div>
+      <div class="fake-card"><div class="fake-icon"></div><div class="fake-lines"><div class="fl1"></div><div class="fl2"></div></div></div>
+      <div class="fake-card"><div class="fake-icon"></div><div class="fake-lines"><div class="fl1"></div><div class="fl2"></div></div></div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:#475569;font-family:'Courier New',monospace;text-align:center;margin-top:8px;">Gutter con números de línea o // a los costados. Muy "code editor". Llena el espacio con decoración coherente al tema dev.</p>
+</div>
+
+</body>
+</html>
