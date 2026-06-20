@@ -57,12 +57,12 @@ export const projects: Project[] = [
 ];
 
 export const skills: Skill[] = [
-  { name: 'NestJS',      icon: 'nestjs/nestjs-original.svg',         level: 'Mid',      years: '~2 años', pct: 88 },
-  { name: 'Node.js',     icon: 'nodejs/nodejs-original.svg',          level: 'Mid',      years: '~2 años', pct: 82 },
-  { name: 'TypeScript',  icon: 'typescript/typescript-original.svg',  level: 'Mid',      years: '~2 años', pct: 78 },
-  { name: 'JavaScript',  icon: 'javascript/javascript-original.svg',  level: 'Junior',   years: '~3 años', pct: 74 },
-  { name: 'Python',      icon: 'python/python-original.svg',          level: 'Junior',   years: '~1 año',  pct: 70 },
-  { name: 'Next.js',     icon: 'nextjs/nextjs-original.svg',          level: 'Learning', years: '<1 año',  pct: 60, invert: true },
+  { name: 'NestJS',      icon: 'nestjs/nestjs-original.svg',         level: 'Mid',      pct: 73 },
+  { name: 'Node.js',     icon: 'nodejs/nodejs-original.svg',          level: 'Mid',      pct: 68 },
+  { name: 'TypeScript',  icon: 'typescript/typescript-original.svg',  level: 'Mid',      pct: 70 },
+  { name: 'JavaScript',  icon: 'javascript/javascript-original.svg',  level: 'Mid',   pct: 70 },
+  { name: 'Python',      icon: 'python/python-original.svg',          level: 'Mid',   pct: 65 },
+  { name: 'Next.js',     icon: 'nextjs/nextjs-original.svg',          level: 'Learning', pct: 50, invert: true },
 ];
 
 export const personalInfo = {
@@ -76,6 +76,4 @@ export const personalInfo = {
   github: 'https://github.com/AlfredoNavarroDev',
   linkedin: 'https://linkedin.com/in/alfredont',
   siteUrl: 'https://alfredo-navarro.vercel.app',
-  avatar:
-    'https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?q=75&w=320&auto=format&fit=crop',
 };

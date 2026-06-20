@@ -10,7 +10,7 @@ export default function Home() {
       {/* ── HERO ── */}
       <section
         style={{
-          minHeight: '94vh',
+          minHeight: '70vh',
           display: 'flex',
           alignItems: 'center',
           padding: '0 7%',
@@ -133,7 +133,7 @@ export default function Home() {
         </h2>
         <div style={{ width: 44, height: 2, background: 'var(--accent)', marginBottom: 44 }} />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, width: '50%' }}>
           {skills.map((skill) => (
             <SkillCard key={skill.name} skill={skill} />
           ))}

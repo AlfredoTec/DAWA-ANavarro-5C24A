@@ -21,7 +21,6 @@ export interface Skill {
   name: string;
   icon: string;
   level: 'Mid' | 'Junior' | 'Learning';
-  years: string;
   pct: number;
   invert?: boolean;
 }

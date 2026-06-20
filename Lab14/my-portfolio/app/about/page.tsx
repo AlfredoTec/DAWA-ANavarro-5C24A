@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { personalInfo, skills } from '@/lib/data';
 import SkillCard from '@/components/SkillCard';
 
@@ -21,31 +20,7 @@ export default function AboutPage() {
         </h1>
         <div style={{ width: 44, height: 2, background: 'var(--accent)', marginBottom: 44 }} />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 48, alignItems: 'start' }}>
-          {/* avatar */}
-          <div
-            style={{
-              position: 'relative',
-              aspectRatio: '1',
-              borderRadius: 12,
-              overflow: 'hidden',
-              border: '1px solid var(--border)',
-            }}
-          >
-            <Image
-              src={personalInfo.avatar}
-              alt={personalInfo.fullName}
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 33vw"
-              placeholder="blur"
-              blurDataURL="data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAQCdASoIAAgAAkA4JYgCdAEO/gHOAAD++P/YQAAA"
-            />
-          </div>
-
-          {/* text */}
-          <div>
+        <div>
             <p style={{ fontSize: 18, color: 'var(--accent)', fontFamily: "'Courier New', monospace", marginBottom: 16 }}>
               {personalInfo.role}
             </p>
@@ -91,7 +66,6 @@ export default function AboutPage() {
               </a>
             </div>
           </div>
-        </div>
       </section>
 
       {/* ── SKILLS ── */}
@@ -104,7 +78,7 @@ export default function AboutPage() {
         </h2>
         <div style={{ width: 44, height: 2, background: 'var(--accent)', marginBottom: 44 }} />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, width: '50%' }}>
           {skills.map((skill) => (
             <SkillCard key={skill.name} skill={skill} />
           ))}

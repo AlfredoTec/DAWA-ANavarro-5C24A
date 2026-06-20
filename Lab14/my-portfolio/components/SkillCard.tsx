@@ -21,10 +21,12 @@ export default function SkillCard({ skill }: { skill: Skill }) {
         background: 'var(--bg-card)',
         border: '1px solid var(--border)',
         borderRadius: 10,
-        padding: '20px',
+        height: 100,
+        padding: '10px',
         display: 'flex',
-        gap: 16,
+        gap: 10,
         alignItems: 'flex-start',
+        overflow: 'hidden',
         transition: 'border-color .2s, transform .2s',
       }}
       className="group hover:-translate-y-0.5"
@@ -32,8 +34,8 @@ export default function SkillCard({ skill }: { skill: Skill }) {
       {/* icon */}
       <div
         style={{
-          width: 52,
-          height: 52,
+          width: 42,
+          height: 42,
           borderRadius: 10,
           flexShrink: 0,
           display: 'flex',
@@ -47,8 +49,8 @@ export default function SkillCard({ skill }: { skill: Skill }) {
         <img
           src={`${DEVICON}/${skill.icon}`}
           alt={skill.name}
-          width={30}
-          height={30}
+          width={24}
+          height={24}
           className={skill.invert ? 'icon-invert' : undefined}
           style={{ objectFit: 'contain' }}
         />
@@ -68,15 +70,12 @@ export default function SkillCard({ skill }: { skill: Skill }) {
           {skill.name}
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
           <span
             className={badgeClass[skill.level]}
             style={{ fontFamily: "'Courier New', monospace", fontSize: 9, padding: '3px 9px', borderRadius: 3 }}
           >
             {skill.level}
-          </span>
-          <span style={{ fontFamily: "'Courier New', monospace", fontSize: 9, color: 'var(--t4)' }}>
-            {skill.years}
           </span>
         </div>
 
