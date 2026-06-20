@@ -1,85 +1,115 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Image from 'next/image';
-import { personalInfo } from '@/lib/data';
+import { personalInfo, skills } from '@/lib/data';
+import SkillCard from '@/components/SkillCard';
 
 export const metadata: Metadata = {
-  title: 'Sobre Mí',
-  description: `Conoce más sobre ${personalInfo.name}, ${personalInfo.title}`,
+  title: 'Sobre mí',
+  description: `Conoce más sobre ${personalInfo.fullName}, ${personalInfo.title} en TECSUP.`,
 };
 
 export default function AboutPage() {
-  const skills = [
-    'React & Next.js',
-    'TypeScript & JavaScript',
-    'Node.js & Express',
-    'PostgreSQL & MongoDB',
-    'Tailwind CSS',
-    'Git & GitHub',
-    'Docker',
-    'AWS',
-  ];
-
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center">Sobre Mí</h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          <div className="md:col-span-1">
-            <div className="relative w-full aspect-square rounded-lg overflow-hidden">
-              <Image
-                src={personalInfo.avatar}
-                alt={personalInfo.name}
-                fill
-                className="object-cover"
-                priority
-                sizes="(max-width: 768px) 100vw, 33vw"
-                placeholder="blur"
-                blurDataURL="data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAQCdASoIAAgAAkA4JYgCdAEO/gHOAAD++P/YQAAA"
-              />
-            </div>
+    <>
+      {/* ── BIO ── */}
+      <section className="section">
+        <div style={{ fontFamily: "'Courier New', monospace", fontSize: 10, color: 'var(--accent)', letterSpacing: 3, marginBottom: 6 }}>
+          // sobre mí
+        </div>
+        <h1 style={{ fontSize: 34, fontWeight: 800, color: 'var(--t1)', marginBottom: 10 }}>
+          Alfredo Navarro Tejeda
+        </h1>
+        <div style={{ width: 44, height: 2, background: 'var(--accent)', marginBottom: 44 }} />
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 48, alignItems: 'start' }}>
+          {/* avatar */}
+          <div
+            style={{
+              position: 'relative',
+              aspectRatio: '1',
+              borderRadius: 12,
+              overflow: 'hidden',
+              border: '1px solid var(--border)',
+            }}
+          >
+            <Image
+              src={personalInfo.avatar}
+              alt={personalInfo.fullName}
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 33vw"
+              placeholder="blur"
+              blurDataURL="data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAQCdASoIAAgAAkA4JYgCdAEO/gHOAAD++P/YQAAA"
+            />
           </div>
-          <div className="md:col-span-2">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              ¡Hola! Soy {personalInfo.name}
-            </h2>
-            <div className="prose text-gray-600 space-y-4">
+
+          {/* text */}
+          <div>
+            <p style={{ fontSize: 18, color: 'var(--accent)', fontFamily: "'Courier New', monospace", marginBottom: 16 }}>
+              {personalInfo.role}
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontSize: 15, color: 'var(--t3)', lineHeight: 1.8 }}>
               <p>
-                Soy un Desarrollador Full Stack apasionado por crear experiencias
-                web excepcionales. Con más de X años de experiencia, me especializo
-                en construir aplicaciones modernas y escalables.
+                Soy estudiante de Diseño y Desarrollo de Software en TECSUP (Lima, Perú).
+                Me especializo en backend con Node.js y NestJS, construyendo APIs robustas y sistemas escalables.
               </p>
               <p>
-                Mi enfoque está en escribir código limpio, mantenible y eficiente,
-                siempre buscando las mejores prácticas y las últimas tecnologías
-                para entregar productos de alta calidad.
+                He trabajado en proyectos reales con stacks multi-plataforma — desde e-commerce hasta
+                sistemas médicos con IA. Disfruto aprender tecnologías nuevas y aplicarlas en soluciones concretas.
               </p>
               <p>
-                Cuando no estoy programando, me gusta contribuir a proyectos de
-                código abierto, escribir artículos técnicos y aprender nuevas
-                tecnologías.
+                Actualmente aprendiendo Next.js y expandiendo mis conocimientos en arquitectura de software.
               </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  border: '1px solid var(--border-md)', borderRadius: 8,
+                  padding: '10px 20px', fontSize: 14, fontWeight: 500,
+                  color: 'var(--t2)', textDecoration: 'none',
+                }}
+              >
+                GitHub
+              </a>
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  background: 'var(--accent)', color: '#0f172a',
+                  borderRadius: 8, padding: '10px 20px',
+                  fontSize: 14, fontWeight: 700, textDecoration: 'none',
+                }}
+              >
+                LinkedIn
+              </a>
             </div>
           </div>
         </div>
-        
-        {/* Skills Section con Easy Loading */}
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Habilidades Técnicas
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {skills.map((skill) => (
-              <div
-                key={skill}
-                className="bg-white p-4 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow"
-              >
-                <span className="font-medium text-gray-800">{skill}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
-    </div>
+      </section>
+
+      {/* ── SKILLS ── */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div style={{ fontFamily: "'Courier New', monospace", fontSize: 10, color: 'var(--accent)', letterSpacing: 3, marginBottom: 6 }}>
+          // habilidades
+        </div>
+        <h2 style={{ fontSize: 34, fontWeight: 800, color: 'var(--t1)', marginBottom: 10 }}>
+          Nivel por tecnología
+        </h2>
+        <div style={{ width: 44, height: 2, background: 'var(--accent)', marginBottom: 44 }} />
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+          {skills.map((skill) => (
+            <SkillCard key={skill.name} skill={skill} />
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

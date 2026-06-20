@@ -1,30 +1,33 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { projects } from '@/lib/data';
 import ProjectCard from '@/components/ProjectCard';
 
 export const metadata: Metadata = {
   title: 'Proyectos',
-  description: 'Explora mi colección de proyectos de desarrollo web y aplicaciones.',
+  description: 'Proyectos de desarrollo web y software construidos por Alfredo Navarro.',
   openGraph: {
-    title: 'Proyectos - Portafolio',
-    description: 'Explora mi colección de proyectos de desarrollo web.',
+    title: 'Proyectos',
+    description: 'Proyectos de desarrollo web y software construidos por Alfredo Navarro.',
     images: ['/og-projects.jpg'],
   },
 };
 
 export default function ProjectsPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-gray-900 mb-4">Mis Proyectos</h1>
-      <p className="text-lg text-gray-600 mb-12">
-        Una colección de proyectos en los que he trabajado
-      </p>
-      
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
+    <section className="section">
+      <div style={{ fontFamily: "'Courier New', monospace", fontSize: 10, color: 'var(--accent)', letterSpacing: 3, marginBottom: 6 }}>
+        // proyectos
+      </div>
+      <h1 style={{ fontSize: 34, fontWeight: 800, color: 'var(--t1)', marginBottom: 10 }}>
+        Lo que he construido
+      </h1>
+      <div style={{ width: 44, height: 2, background: 'var(--accent)', marginBottom: 44 }} />
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 64 }}>
+        {projects.map((project, i) => (
+          <ProjectCard key={project.slug} project={project} reverse={i % 2 === 1} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }
