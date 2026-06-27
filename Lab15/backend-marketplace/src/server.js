@@ -1,6 +1,6 @@
 require('dotenv').config();
 const app = require('./app');
-const { sequelize, Role, Category } = require('./models');
+const { sequelize, Role, Category, User } = require('./models');
 
 const PORT = process.env.PORT || 3001;
 
@@ -23,6 +23,17 @@ async function seed() {
       { nombre: 'Deportes' },
     ]);
     console.log('Categorias creadas');
+  }
+
+  const adminExists = await User.findOne({ where: { email: 'admin@market.com' } });
+  if (!adminExists) {
+    await User.create({
+      nombre: 'Admin',
+      email: 'admin@market.com',
+      password: 'admin123',
+      roleId: 1,
+    });
+    console.log('Usuario admin creado: admin@market.com / admin123');
   }
 }
 
